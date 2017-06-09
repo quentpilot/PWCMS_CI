@@ -33,6 +33,12 @@ class Admin_Controller extends PW_Controller
   function __construct()
   {
     parent::__construct();
+    $this->load->library('ion_auth');
+    if (!$this->ion_auth->logged_in())
+    {
+      // redirect user to login page
+      redirect('admin/user/login', 'refresh');
+    }
     $this->data['page_title'] = 'PWCMS - Dashboard';
   }
 
