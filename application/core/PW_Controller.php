@@ -39,6 +39,13 @@ class Admin_Controller extends PW_Controller
       // redirect user to login page
       redirect('admin/user/login', 'refresh');
     }
+    $this->data['current_user'] = $this->ion_auth->user()->row();
+    $this->data['current_user_menu'] = '';
+    if($this->ion_auth->in_group('admin'))
+    {
+      $this->data['current_user_menu'] = $this->load->view('templates/_parts/user_menu_admin.php', NULL, TRUE);
+    }
+
     $this->data['page_title'] = 'PWCMS - Dashboard';
   }
 
