@@ -26,6 +26,35 @@ class PW_Controller extends CI_Controller
       $this->load->view('templates/' . $template, $this->data);
     }
   }
+
+  protected function css($path = NULL, $tag = 'head')
+  {
+    if ($path != NULL)
+    {
+      if ($tag == 'head')
+        $this->data['head_link'] .= $path;
+      elseif ($tag == 'body')
+        $this->data['body_link'] .= $path;
+      else
+        return NULL;
+    }
+    return NULL;
+  }
+
+  protected function js($path = NULL, $tag = 'body')
+  {
+    if ($path != NULL)
+    {
+      if ($tag == 'head')
+        $this->data['head_link'] .= $path;
+      elseif ($tag == 'body')
+        $this->data['body_link'] .= $path;
+      else
+        return NULL;
+    }
+    return NULL; 
+  }
+
 }
 
 class Admin_Controller extends PW_Controller
@@ -47,6 +76,7 @@ class Admin_Controller extends PW_Controller
     }
 
     $this->data['page_title'] = 'PWCMS - Dashboard';
+    $this->data['template_name'] = 'admin_master';
   }
 
   protected function render($view = NULL, $template = 'admin_master')
@@ -60,5 +90,20 @@ class Public_Controller extends PW_Controller
   function __construct()
   {
     parent::__construct();
+    $this->load->library('ion_auth');
+    /*if (!$this->ion_auth->logged_in())
+    {
+      // redirect user to login page
+      redirect('admin/user/login', 'refresh');
+    }*/
+    $this->data['current_user'] = $this->ion_auth->user()->row();
+    $this->data['current_user_menu'] = $this->load->view('templates/_parts/user_menu_public.php', NULL, TRUE);
+    $this->data['page_title'] = 'PWCMS - Welcome';
+    $this->data['template_name'] = 'public_master';
+  }
+
+  protected function render($view = NULL, $template = 'public_master')
+  {
+    parent::render($view, $template);
   }
 }
