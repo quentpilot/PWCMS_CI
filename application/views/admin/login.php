@@ -1,4 +1,4 @@
-<div class="row">
+<!--<div class="row">
   <div class="col-lg-4 col-lg-offset-4">
     <h1>Login</h1>
     <?php echo $this->session->flashdata('message');?>
@@ -21,4 +21,4 @@
       <?php echo form_submit('submit', 'Log in', 'class="btn btn-primary btn-lg btn-block"');?>
     <?php echo form_close();?>
   </div>
-</div>
+</div>-->
