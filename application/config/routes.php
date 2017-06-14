@@ -49,9 +49,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'admin/dashboard';
+$route['default_controller'] = 'index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 /* PWCMS default routes */
+
+/* admin routes */
 $route['admin'] = 'admin/dashboard';
+$route['welcome'] = 'public/dashboard';
+
+/* public routes */
+	
+	/* user */
+$route['login'] = 'public/user/login';
+$route['logout'] = 'public/user/logout';
+$route['subscribe'] = 'public/user/subscribe';
+$route['valid-account/(:any)/(:any)'] = 'public/user/validAccount/$1/$2';
+$route['forgot-pass'] = 'public/user/forgotPass';
+$route['new-pass/(:any)/(:any)'] = 'public/user/newPass/$1/$2';
+$route['profile'] = 'public/user/profile';
+	
+	/* items */
+$route['article/(:any)'] = 'public/dashboard/page/$1';
+$route['articles'] = 'public/dashboard/article';
+$route['blog'] = 'public/dashboard/blog';
+$route['shop'] = 'public/dashboard/shop';
