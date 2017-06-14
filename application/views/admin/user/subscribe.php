@@ -7,7 +7,7 @@
         <div class="card">
             <div class="body">
                 <form id="sign_up" method="POST">
-                    <div class="msg">Register a new membership</div>
+                    <div class="msg">Inscrivez-vous afin d'accéder à l'administration</div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
