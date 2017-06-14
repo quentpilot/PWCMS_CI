@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends Public_Controller {
+class User extends Public_Controller {
 
 	function __construct()
 	{
@@ -13,37 +13,37 @@ class Dashboard extends Public_Controller {
 		$this->render('public/dashboard');
 	}
 
-	public function page($slug = '')
+	public function login()
 	{
 		$this->render('public/dashboard');
 	}
 
-	public function article($slug = '')
+	public function subscribe()
 	{
 		$this->render('public/dashboard');
 	}
 
-	public function blog($slug = '')
+	public function validAccount($username = '', $token = '')
 	{
 		$this->render('public/dashboard');
 	}
 
-	public function shop($slug = '')
+	public function forgotPass()
 	{
 		$this->render('public/dashboard');
 	}
 
-	public function new($slug = '')
+	public function newPass($username = '', $token = '')
 	{
 		$this->render('public/dashboard');
 	}
 
-	public function edit($slug = '')
+	public function logout()
 	{
 		$this->render('public/dashboard');
 	}
 
-	public function delete($slug = '')
+	public function profile()
 	{
 		$this->render('public/dashboard');
 	}
