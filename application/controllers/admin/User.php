@@ -39,7 +39,35 @@ class User extends PW_Controller
       }
     }
     $this->load->helper('form');
-    $this->render('admin/login', 'admin_master');
+    $this->render('admin/user/login', 'admin_master');
+  }
+
+  public function subscribe()
+  {
+    $this->data['page_title'] = 'Login';
+    if ($this->input->post())
+    {
+      $this->load->library('form_validation');
+      $this->form_validation->set_rules('username', 'Username', 'required');
+      $this->form_validation->set_rules('password', 'Password', 'required');
+      $this->form_validation->set_rules('remember','Remember me','integer');
+
+      if($this->form_validation->run() === TRUE)
+      {
+        $remember = (bool) $this->input->post('remember');
+        if ($this->ion_auth->login($this->input->post('username'), $this->input->post('password'), $remember))
+        {
+          redirect('admin', 'refresh');
+        }
+        else
+        {
+          $this->session->set_flashdata('message',$this->ion_auth->errors());
+          redirect('admin/user/login', 'refresh');
+        }
+      }
+    }
+    $this->load->helper('form');
+    $this->render('admin/user/subscribe', 'admin_master');
   }
 
   public function logout()

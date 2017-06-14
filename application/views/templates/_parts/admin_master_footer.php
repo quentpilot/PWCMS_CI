@@ -48,7 +48,7 @@
 <script src="<?= site_url('assets/admin/admin_master/plugins/jquery-validation/jquery.validate.js') ?>"></script>
 
 <!-- Custom Js -->
-<script src="<?= site_url('assets/admin/admin_master/js/admin.js') ?>"></script>
+<!--<script src="<?= site_url('assets/admin/admin_master/js/admin.js') ?>"></script>-->
 <script src="<?= site_url('assets/admin/admin_master/js/pages/examples/sign-in.js') ?>"></script>
 
 <?= $body_link ?>
