@@ -226,7 +226,7 @@
                                 <a href="<?= site_url('admin/plugins/more') ?>">Plus</a>
                             </li>
                             <li>
-                                <a href="<?= site_url('admin/templates/settings') ?>">Paramètres</a>
+                                <a href="<?= site_url('admin/plugins/settings') ?>">Paramètres</a>
                             </li>
                         </ul>
                     </li>
@@ -265,13 +265,13 @@
                                 </a>
                                 <ul class="ml-menu">
                                     <li>
-                                        <a href="pages/widgets/cards/basic.html">Vraiment rapide</a>
+                                        <a href="<?= site_url('admin/doc/fasta') ?>">Vraiment rapide</a>
                                     </li>
                                     <li>
-                                        <a href="pages/widgets/cards/colored.html">Site</a>
+                                        <a href="<?= site_url('admin/doc/site') ?>">Site</a>
                                     </li>
                                     <li>
-                                        <a href="pages/widgets/cards/no-header.html">CMS</a>
+                                        <a href="<?= site_url('admin/doc/cms') ?>">CMS</a>
                                     </li>
                                 </ul>
                             </li>
@@ -281,19 +281,19 @@
                                 </a>
                                 <ul class="ml-menu">
                                     <li>
-                                        <a href="pages/widgets/infobox/infobox-1.html">A propos</a>
+                                        <a href="<?= site_url('admin/doc/about') ?>">A propos</a>
                                     </li>
                                     <li>
-                                        <a href="pages/widgets/infobox/infobox-2.html">C'est pour qui ?</a>
+                                        <a href="<?= site_url('admin/doc/who') ?>">C'est pour qui ?</a>
                                     </li>
                                     <li>
-                                        <a href="pages/widgets/infobox/infobox-3.html">Comment ça marche ?</a>
+                                        <a href="<?= site_url('admin/doc/how') ?>">Comment ça marche ?</a>
                                     </li>
                                     <li>
-                                        <a href="pages/widgets/infobox/infobox-4.html">Coté Client</a>
+                                        <a href="<?= site_url('admin/doc/clients') ?>">Coté Client</a>
                                     </li>
                                     <li>
-                                        <a href="pages/widgets/infobox/infobox-5.html">Coté Administrateur</a>
+                                        <a href="<?= site_url('admin/doc/admins') ?>">Coté Administrateur</a>
                                     </li>
                                 </ul>
                             </li>
@@ -305,7 +305,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2017 <a href="javascript:void(0);">PilotaWeb</a>.
+                    &copy; 2017 <a href="https://pilotaweb.fr" target="_blank">PilotaWeb</a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 0.1.0
