@@ -12,4 +12,9 @@ class Dashboard extends Public_Controller {
 	{
 		$this->render('public/dashboard');
 	}
+
+	public function page($slug = '')
+	{
+		$this->render('public/dashboard');
+	}
 }
