@@ -82,7 +82,7 @@ class User extends PW_Controller
     {
       redirect('admin');
     }
-    $this->data['page_title'] = 'User Profile';
+    $this->data['page_title'] = 'Profil - PWCMS';
     $user = $this->ion_auth->user()->row();
     $this->data['user'] = $user;
     $this->data['current_user_menu'] = '';
@@ -94,7 +94,6 @@ class User extends PW_Controller
     $this->load->library('form_validation');
     $this->form_validation->set_rules('first_name','First name','trim');
     $this->form_validation->set_rules('last_name','Last name','trim');
-    $this->form_validation->set_rules('company','Company','trim');
     $this->form_validation->set_rules('phone','Phone','trim');
 
     if($this->form_validation->run()===FALSE)
@@ -103,14 +102,15 @@ class User extends PW_Controller
     }
     else
     {
+      $post = $_POST;
       $new_data = array(
-        'first_name' => $this->input->post('first_name'),
-        'last_name' => $this->input->post('last_name'),
-        'company' => $this->input->post('company'),
-        'phone' => $this->input->post('phone')
+        'first_name' => $post['first_name'],
+        'last_name' => $post['last_name'],
+        'company' => $post['company'],
+        'phone' => $post['phone']
       );
-      if(strlen($this->input->post('password'))>=6)
-        $new_data['password'] = $this->input->post('password');
+      if(strlen($post['password']) >= 6)
+        $new_data['password'] = $post['password'];
       
       $this->ion_auth->update($user->id, $new_data);
       $this->session->set_flashdata('message', $this->ion_auth->messages());

@@ -41,7 +41,7 @@
 
     <!-- navbar menu -->
     <?= $current_user_menu ?>
-      
+
     <!-- display alert message (events) -->
     <?php
       if($this->session->flashdata('message'))
