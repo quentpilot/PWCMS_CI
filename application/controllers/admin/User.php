@@ -39,7 +39,35 @@ class User extends PW_Controller
       }
     }
     $this->load->helper('form');
-    $this->render('admin/login', 'admin_master');
+    $this->render('admin/user/login', 'admin_master');
+  }
+
+  public function subscribe()
+  {
+    $this->data['page_title'] = 'Login';
+    if ($this->input->post())
+    {
+      $this->load->library('form_validation');
+      $this->form_validation->set_rules('username', 'Username', 'required');
+      $this->form_validation->set_rules('password', 'Password', 'required');
+      $this->form_validation->set_rules('remember','Remember me','integer');
+
+      if($this->form_validation->run() === TRUE)
+      {
+        $remember = (bool) $this->input->post('remember');
+        if ($this->ion_auth->login($this->input->post('username'), $this->input->post('password'), $remember))
+        {
+          redirect('admin', 'refresh');
+        }
+        else
+        {
+          $this->session->set_flashdata('message',$this->ion_auth->errors());
+          redirect('admin/user/login', 'refresh');
+        }
+      }
+    }
+    $this->load->helper('form');
+    $this->render('admin/user/subscribe', 'admin_master');
   }
 
   public function logout()
@@ -54,7 +82,7 @@ class User extends PW_Controller
     {
       redirect('admin');
     }
-    $this->data['page_title'] = 'User Profile';
+    $this->data['page_title'] = 'Profil - PWCMS';
     $user = $this->ion_auth->user()->row();
     $this->data['user'] = $user;
     $this->data['current_user_menu'] = '';
@@ -66,7 +94,6 @@ class User extends PW_Controller
     $this->load->library('form_validation');
     $this->form_validation->set_rules('first_name','First name','trim');
     $this->form_validation->set_rules('last_name','Last name','trim');
-    $this->form_validation->set_rules('company','Company','trim');
     $this->form_validation->set_rules('phone','Phone','trim');
 
     if($this->form_validation->run()===FALSE)
@@ -75,14 +102,15 @@ class User extends PW_Controller
     }
     else
     {
+      $post = $_POST;
       $new_data = array(
-        'first_name' => $this->input->post('first_name'),
-        'last_name' => $this->input->post('last_name'),
-        'company' => $this->input->post('company'),
-        'phone' => $this->input->post('phone')
+        'first_name' => $post['first_name'],
+        'last_name' => $post['last_name'],
+        'company' => $post['company'],
+        'phone' => $post['phone']
       );
-      if(strlen($this->input->post('password'))>=6)
-        $new_data['password'] = $this->input->post('password');
+      if(strlen($post['password']) >= 6)
+        $new_data['password'] = $post['password'];
       
       $this->ion_auth->update($user->id, $new_data);
       $this->session->set_flashdata('message', $this->ion_auth->messages());

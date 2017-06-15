@@ -2,6 +2,7 @@
 
 $this->load->view('templates/_parts/admin_master_header'); ?>
 
+
 <!-- custom view content ($this->render($view_file)) -->
 <?= $view_content ?>
 
