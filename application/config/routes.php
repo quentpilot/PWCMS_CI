@@ -75,3 +75,6 @@ $route['article/(:any)'] = 'public/dashboard/page/$1';
 $route['articles'] = 'public/dashboard/article';
 $route['blog'] = 'public/dashboard/blog';
 $route['shop'] = 'public/dashboard/shop';
+
+	/* plugins */
+$route['plugins'] = 'admin/plugins';
