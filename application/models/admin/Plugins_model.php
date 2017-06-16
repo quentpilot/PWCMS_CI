@@ -31,7 +31,7 @@ class Plugins_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path = 'assets/content/plugins/';
+		$this->path = site_url('assets/content/plugins/');
 		$this->source = 'assets/content/plugins/';
 		$this->dest = 'application/';
 		$this->dbtable = 'plugins';
@@ -44,6 +44,8 @@ class Plugins_model extends CI_Model
 		$this->folder = (empty($slug) ? $this->folder : $slug);
 		elseif (!$this->checkFiles($this->folder))
 			return false;
+		if ($this->pluginExists($this->folder))
+			return false;
 		if ($this->run())
 			return true;
 		return false;
@@ -52,7 +54,43 @@ class Plugins_model extends CI_Model
 
 	protected function checkFiles($slug = '', $getFiles = false)
 	{
-		
+		if ($slug == '' || $slug == NULL)
+			return false;
+		$path = $this->path . $slug;
+		// check if plugin is downloaded
+		if (!file_exists($path))
+			return false;
+		// check each main files like controllers, models, views, libs, sql
+		if (!$this->pluginFileExists('controllers'))
+			return false;
+		if (!$this->pluginFileExists('models'))
+			return false;
+		if (!$this->pluginFileExists('views'))
+			return false;
+		return true;
+	}
+
+	protected function pluginFileExists($folder = NULL)
+	{
+		if (is_null($folder))
+			return false;
+		$path = $this->path . $this->folder . '/' . $folder;
+		if (!file_exists($path))
+			return false;
+		$files = scandir($path);
+		$it = 0;
+		$out_files = array('.', '..');
+		$get_files = array();
+		while ($files)
+		{
+			if (!in_array($files[$it], $out_files))
+				array_push($get_files, $files[$it]);
+		}
+		if (count($get_files) <= 0)
+			return false;
+		$this->files[$folder] = $get_files;
+		return true;
+
 	}
 
 	protected function run()
@@ -68,6 +106,19 @@ class Plugins_model extends CI_Model
 	protected function clean($slug = '')
 	{
 		
+	}
+
+	public function pluginExists($slug = NULL)
+	{
+		if (is_null($slug))
+			return false;
+		$this->load->database();
+		$req = $this->db->select('slug')
+				->like($slug)
+				->get('plugins');
+		if ($eq->num_rows())
+			return true;
+		return false;
 	}
 
 	protected function add()

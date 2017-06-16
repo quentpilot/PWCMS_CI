@@ -58,6 +58,7 @@ $route['translate_uri_dashes'] = FALSE;
 /* admin routes */
 $route['admin'] = 'admin/dashboard';
 $route['welcome'] = 'public/dashboard';
+//$route['admin/plugins'] = 'admin/plugins';
 
 /* public routes */
 	

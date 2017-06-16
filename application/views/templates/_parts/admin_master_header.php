@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title><?= $page_title;?></title>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="<?= site_url('assets/admin/admin_master/favicon.ico') ?>" type="image/x-icon">
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">

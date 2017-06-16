@@ -1,24 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Plugins extends PW_Controller
+class Plugins extends Admin_Controller
 {
-	protected $folder = NULL;
-	protected $source = NULL;
-	protected $destination = NULL;
-	protected $files = array();
-
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	public function install()
+	public function index()
 	{
-		return false;
+		$this->data['plugins_list'] = $this->load->view('admin/plugins/list', NULL, TRUE);
+		$this->data['plugins_list_install'] = $this->load->view('admin/plugins/list_install', NULL, TRUE);
+		$this->data['plugins_list_download'] = $this->load->view('admin/plugins/list_download', NULL, TRUE);
+		$this->data['plugins_settings'] = $this->load->view('admin/plugins/settings_form', NULL, TRUE);
+		$this->render('admin/plugins/index');
 	}
 
-	public function checkFiles()
+	public function install()
 	{
 		return false;
 	}
