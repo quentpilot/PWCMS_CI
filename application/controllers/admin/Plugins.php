@@ -39,8 +39,8 @@ class Plugins extends Admin_Controller
 		$this->data['plugins_list_install'] = $this->load->view('admin/plugins/list_install', NULL, TRUE);
 		$this->data['plugins_list_download'] = $this->load->view('admin/plugins/list_download', NULL, TRUE);
 		$this->data['plugins_settings'] = $this->load->view('admin/plugins/settings_form', NULL, TRUE);
-		//$this->render('admin/plugins/index');
-		//redirect('admin/plugins');
+		$this->render('admin/plugins/index');
+		redirect('admin/plugins');
 	}
 
 	public function add()
