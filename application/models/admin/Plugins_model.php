@@ -20,6 +20,7 @@
 
 class Plugins_model extends CI_Model
 {
+	protected $mode = NULL; // folder format of actu plugin to install (type 'pw' or 'application' => 'ci')
 	protected $path = NULL; // main path access
 	protected $source = NULL; // current source of plugin file
 	protected $dest = NULL; // current destination of plugin file
@@ -32,9 +33,10 @@ class Plugins_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
+		$this->mode = 'pw';
 		$this->path = __DIR__ . '/../../../assets/content/plugins/';
-		$this->source = 'assets/content/plugins/';
-		$this->dest = 'application/';
+		$this->source = __DIR__ . '/../../../assets/content/plugins/';
+		$this->dest = __DIR__ . '/../../../application/';
 		$this->dbtable = 'plugins';
 		$this->dbplugins['plugins'] = array();
 	}
@@ -114,17 +116,123 @@ class Plugins_model extends CI_Model
 
 	protected function run()
 	{
-		if (empty($this->folder) || empty($this->files))
+		if (empty($this->folder) || count($this->files) <= 0)
 			return false;
 		// copy all the plugin files in application/...
-		// add plugin to database, and with his sql table if got
+
+		if (!$this->installer('files'))
+			return false;
+
+		// then add plugin to database, and with his sql table if got
 		return true;
 
 	}
 
-	protected function clean($slug = '')
+	protected function installer($type = 'files')
 	{
+		if ($type == 'files')
+		{
+			if (!count($this->files))
+				return false;
+			if (!$this->copyFiles())
+				return false;
+			return true;
+		}
+		elseif ($type == 'db')
+		{
+			return false;
+		}
+		return false;
+	}
+
+	protected function copyFiles()
+	{
+		if (empty($this->source) || empty($this->dest))
+			return false;
+		$it = 0;
+
+		//debug($this->files);
+
+		foreach ($this->files as $folder => $files)
+		{
+			if (!$this->copy($folder, $files))
+				return false;
+			$it++;
+		}
+		return true;
+	}
+
+	protected function copy($folder = NULL, $files = NULL)
+	{
+		if (is_null($folder) || is_null($files))
+			return false;
+
+		foreach ($files as $file)
+		{
+			$src = $this->path . '/' . $folder . '/' . $file;
+			$dest = $this->dest . $folder . '/admin/plugins/' . $this->folder;
+			$plugin_folder = $this->dest . $folder . '/admin/plugins/' . $this->folder;
+			
+			if (!file_exists($plugin_folder))
+				mkdir($plugin_folder);
+				//echo $plugin_folder;
+			if (file_exists($src) && file_exists($dest))
+				{
+					/*if (file_exists($dest))
+					{
+						exec('rm -rf ' . $dest);
+					}*/
+					//chmod($dest, 0755);
+					exec('cp -R ' . $src . ' ' . $dest);
+					echo $dest . "\n";
+				}
+
+				//move_uploaded_file($src, $dest);
+				//system('sudo cp -rf' . $src . ' ' . $dest);
+				//copy($src, $dest);
+				//echo $dest . "\n";
+		}
+
+		//debug($files);
+
+		return true;
+	}
+
+	protected function clean($slug = '', $mode = NULL)
+	{
+		if (is_null($mode) && is_null($this->mode))
+			return false;
+		$this->mode = (is_null($mode) ? $this->mode : $mode);
+		return $this->deletePluginFolder();
+	}
+
+	protected function deletePluginFolder()
+	{
+		if (is_null($this->mode) || is_null($this->folder) || is_null($this->path))
+			return false;
 		
+		if ($this->mode == 'pw')
+		{
+			$src = $this->path;
+			if (file_exists($src))
+			{
+				exec('rm -rf ' . $src);
+				return true;
+			}
+			return false;
+		}
+		elseif ($this->mode == 'ci' || $this->mode == 'application')
+		{
+			$folders = array('controllers', 'models', 'views');
+			foreach ($folders as $folder) 
+			{
+				$src = $this->dest . '/' . $folder . '/admin/plugins/' . $this->folder;
+				if (file_exists($src))
+					exec('rm -rf ' . $src);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -188,6 +296,11 @@ class Plugins_model extends CI_Model
 		$this->db->set('status', $status);
 		$this->db->update($this->dbtable);
 		return true;
+	}
+
+	protected function upgrade($slug = NULL)
+	{
+		return false;
 	}
 
 	/*
