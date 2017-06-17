@@ -175,26 +175,13 @@ class Plugins_model extends CI_Model
 			
 			if (!file_exists($plugin_folder))
 				mkdir($plugin_folder);
-				//echo $plugin_folder;
 			if (file_exists($src) && file_exists($dest))
 				{
-					/*if (file_exists($dest))
-					{
-						exec('rm -rf ' . $dest);
-					}*/
 					//chmod($dest, 0755);
 					exec('cp -R ' . $src . ' ' . $dest);
 					echo $dest . "\n";
 				}
-
-				//move_uploaded_file($src, $dest);
-				//system('sudo cp -rf' . $src . ' ' . $dest);
-				//copy($src, $dest);
-				//echo $dest . "\n";
 		}
-
-		//debug($files);
-
 		return true;
 	}
 
