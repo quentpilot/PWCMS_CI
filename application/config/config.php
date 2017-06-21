@@ -18,8 +18,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url'] = 'http://localhost/hmvc/';
-//$config['base_url'] = 'http://localhost/Projects/PWCMS/PWCMS_CI/';
-$config['base_url'] = '';
+$config['base_url'] = 'http://localhost/Projects/PWCMS/PWCMS_CI/';
+//$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------
