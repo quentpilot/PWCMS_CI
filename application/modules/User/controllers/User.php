@@ -10,7 +10,7 @@ class User extends PW_Controller {
 
 	public function __construct()
 	{
-		parent::__construct();
+		parent::__construct('public_master');
 	}
 
 	public function index()

@@ -10,13 +10,15 @@ class PW_Controller extends MX_Controller
   **/
   protected $data = array();
 
-  function __construct()
+  function __construct($template = 'master')
   {
     parent::__construct();
     $this->data['page_title'] = 'PWCMS'; // main page title
     $this->data['head_link'] = ''; // CSS links to add between <head></head>
     $this->data['body_link'] = ''; // JS links to add between <body></body>
-    $this->data['template'] = '/'; // template folder name to load assets and views
+    $this->data['template'] = $template; // template folder name to load assets and views
+    $this->data['navbar_menu'] = $this->load->view('templates/'.$this->data['template'].'/parts/navbar_menu.php', NULL, TRUE);
+    $this->data['sidebar_menu'] = '';
   }
 
   protected function render($view = NULL, $template = 'master')
