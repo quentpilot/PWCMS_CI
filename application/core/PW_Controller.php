@@ -2,6 +2,12 @@
 
 class PW_Controller extends MX_Controller
 {
+  /**
+    * @Author       : quentpilot {Quentin Le Bian}
+    * @Email        : quentin.lebian@pilotaweb.fr
+    * @Web          : https://pilotaweb.fr
+    * @Date         : 2017-06-23 20:00:00
+  **/
   protected $data = array();
 
   function __construct()
@@ -10,11 +16,12 @@ class PW_Controller extends MX_Controller
     $this->data['page_title'] = 'PWCMS'; // main page title
     $this->data['head_link'] = ''; // CSS links to add between <head></head>
     $this->data['body_link'] = ''; // JS links to add between <body></body>
-    $this->data['template_name'] = '/'; // template folder name to load assets and views
+    $this->data['template'] = '/'; // template folder name to load assets and views
   }
 
   protected function render($view = NULL, $template = 'master')
   {
+    $this->data['template'] = $template;
     if ($template == 'json' || $this->input->is_ajax_request())
     {
       header('Content-Type: application/json');
@@ -27,7 +34,7 @@ class PW_Controller extends MX_Controller
     }
   }
 
-  protected function css($path = NULL, $tag = 'head')
+  /*protected function _css($path = NULL, $tag = 'head')
   {
     if ($path != NULL)
     {
@@ -41,7 +48,7 @@ class PW_Controller extends MX_Controller
     return NULL;
   }
 
-  protected function js($path = NULL, $tag = 'body')
+  protected function _js($path = NULL, $tag = 'body')
   {
     if ($path != NULL)
     {
@@ -51,59 +58,19 @@ class PW_Controller extends MX_Controller
         $this->data['body_link'] .= $path;
       else
         return NULL;
+      return $this->load_js()
     }
+    return NULL; 
+  }*/
+
+  /*protected function load_css()
+  {
     return NULL; 
   }
 
-}
-
-class Admin_Controller extends PW_Controller
-{
-  function __construct()
+  protected function load_js()
   {
-    parent::__construct();
-    $this->load->library('ion_auth');
-    if (!$this->ion_auth->logged_in())
-    {
-      // redirect user to login page
-      redirect('admin/user/login', 'refresh');
-    }
-    $this->data['current_user'] = $this->ion_auth->user()->row();
-    $this->data['current_user_menu'] = '';
-    if($this->ion_auth->in_group('admin'))
-    {
-      $this->data['current_user_menu'] = $this->load->view('templates/_parts/user_menu_admin.php', NULL, TRUE);
-    }
+    return NULL; 
+  }*/
 
-    $this->data['page_title'] = 'PWCMS - Dashboard';
-    $this->data['template_name'] = 'admin_master';
-  }
-
-  protected function render($view = NULL, $template = 'admin_master')
-  {
-    parent::render($view, $template);
-  }
-}
-
-class Public_Controller extends PW_Controller
-{
-  function __construct()
-  {
-    parent::__construct();
-    $this->load->library('ion_auth');
-    /*if (!$this->ion_auth->logged_in())
-    {
-      // redirect user to login page
-      redirect('admin/user/login', 'refresh');
-    }*/
-    $this->data['current_user'] = $this->ion_auth->user()->row();
-    $this->data['current_user_menu'] = $this->load->view('templates/_parts/user_menu_public.php', NULL, TRUE);
-    $this->data['page_title'] = 'PWCMS - Welcome';
-    $this->data['template_name'] = 'public_master';
-  }
-
-  protected function render($view = NULL, $template = 'public_master')
-  {
-    parent::render($view, $template);
-  }
 }

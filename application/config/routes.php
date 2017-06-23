@@ -53,12 +53,62 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-/* admin routes */
-$route['admin'] = 'Welcome/index';
-$route['admin/plugin/(:any)'] = function($plugin = NULL)
+		/* admin routes */
+$route['admin'] = 'Admin/index';
+$route['admin/dashboard'] = 'Admin/index';
+$route['admin/login'] = 'User/login';
+$route['admin/logout'] = 'User/logout';
+$route['admin/subscribe'] = 'User/subscribe';
+$route['admin/forgot-password'] = 'User/forgotPass';
+$route['admin/new-password'] = 'User/newPass';
+
+		/* public routes */
+$route['index'] = 'Index';
+$route['login'] = 'User/login';
+$route['logout'] = 'User/logout';
+$route['subscribe'] = 'User/subscribe';
+$route['forgot-password'] = 'User/forgotPass';
+$route['new-password'] = 'User/newPass';
+$route['page/(:any)'] = 'Public/page/$1';
+$route['article/(:any)'] = 'Public/showArticle/$1';
+$route['articles'] = 'Public/listArticle';
+$route['article/(:any)/new-comment'] = 'Comments/new/$1';
+$route['article/(:any)/edit-comment'] = 'Comments/edit/$1';
+$route['article/(:any)/new-comment/(:any)'] = 'Comments/delete/$2';
+
+
+		/* main CMS modules */
+
+
+/* Shop module */
+$route['admin/shop'] = 'Shop/index';
+
+/* Blog module */
+$route['admin/blog'] = 'Blog/index';
+
+/* Settings module */
+$route['admin/settings'] = 'Settings/index';
+
+/* Items module */
+$route['admin/items'] = 'Items/index';
+
+/* Categories module */
+$route['admin/categories'] = 'Categories/index';
+
+/* Users module */
+$route['admin/users'] = 'Users/index';
+
+
+
+		/* main extern modules */
+
+
+		/* TESTS */
+
+/*$route['admin/plugin/(:any)'] = function($plugin = NULL)
 {
 	return ucfirst($plugin) . '/index';
-};
+};*/
 //$route['admin/plugin/(:any)'] = 'Plugin/run';
 
 /* public routes */

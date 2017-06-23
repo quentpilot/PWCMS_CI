@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Admin extends Admin_Controller {
+class User extends PW_Controller {
 	/**
 		* @Author				: quentpilot {Quentin Le Bian}
 		* @Email				: quentin.lebian@pilotaweb.fr
 		* @Web					: https://pilotaweb.fr
-		* @Date					: 2017-06-23 19:20:00
+		* @Date					: 2017-06-23 20:00:00
 	**/
 
 	public function __construct()
@@ -16,6 +16,12 @@ class Admin extends Admin_Controller {
 	public function index()
 	{
 		//print_r($this->router->routes);
-		$this->render('dashboard');
+		//$this->load->view('Welcome/welcome_message');
+	}
+
+	public function login()
+	{
+		//echo "Admin login";
+		$this->render('login', 'public_master');
 	}
 }
