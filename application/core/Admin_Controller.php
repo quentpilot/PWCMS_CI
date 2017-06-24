@@ -12,18 +12,19 @@ class Admin_Controller extends PW_Controller
   {
     parent::__construct();
     $this->load->library('ion_auth');
+    $this->load->library('pw_user');
     // replace ion_auth by my check
-    if (!$this->ion_auth->logged_in())
+    if ($this->pw_user->isLoged())
     {
       // redirect user to login page
       redirect('admin/login', 'refresh');
-      exit();
+      //exit();
     }
     $this->data['current_user'] = $this->ion_auth->user()->row();
     $this->data['current_user_menu'] = '';
     $this->data['template'] = 'admin_master';
     // replace ion_auth by my check
-    if($this->ion_auth->in_group('admin'))
+    if($this->pw_user->inGroup('admin'))
     {
       $this->data['navbar_menu'] = $this->load->view('templates/'.$this->data['template'].'/parts/navbar_menu.php', NULL, TRUE);
       $this->data['sidebar_menu'] = $this->load->view('templates/'.$this->data['template'].'/parts/sidebar_menu.php', NULL, TRUE);

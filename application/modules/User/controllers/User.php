@@ -15,6 +15,7 @@ class User extends PW_Controller {
 
 	public function index()
 	{
+		$this->render('index', 'public_master');
 		//print_r($this->router->routes);
 		//$this->load->view('Welcome/welcome_message');
 	}
