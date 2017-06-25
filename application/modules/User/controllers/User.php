@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class User extends PW_Controller {
+class User extends Public_Controller {
 	/**
 		* @Author				: quentpilot {Quentin Le Bian}
 		* @Email				: quentin.lebian@pilotaweb.fr
@@ -10,12 +10,12 @@ class User extends PW_Controller {
 
 	public function __construct()
 	{
-		parent::__construct('public_master');
+		parent::__construct();
 	}
 
 	public function index()
 	{
-		$this->render('index', 'public_master');
+		$this->render('index');
 		//print_r($this->router->routes);
 		//$this->load->view('Welcome/welcome_message');
 	}
@@ -23,6 +23,6 @@ class User extends PW_Controller {
 	public function login()
 	{
 		//echo "Admin login";
-		$this->render('login', 'public_master');
+		$this->render('login');
 	}
 }

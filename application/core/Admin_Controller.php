@@ -7,18 +7,16 @@ class Admin_Controller extends PW_Controller
     * @Email        : quentin.lebian@pilotaweb.fr
     * @Web          : https://pilotaweb.fr
     * @Date         : 2017-06-23 20:00:00
+    * @See          : PW_Controller class
   **/
+
   function __construct()
   {
     parent::__construct();
-    $this->load->library('ion_auth');
-    $this->load->library('pw_user');
-    // replace ion_auth by my check
-    if ($this->pw_user->isLoged())
+    if (!$this->pw_user->isLoged())
     {
       // redirect user to login page
       redirect('admin/login', 'refresh');
-      //exit();
     }
     $this->data['current_user'] = $this->ion_auth->user()->row();
     $this->data['current_user_menu'] = '';

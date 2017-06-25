@@ -32,7 +32,7 @@
 <?= $head_link ?>
 </head>
 <?php
-  if(!$this->ion_auth->logged_in()) {
+  if($this->pw_user->isLoged()) {
 ?>
 <body class="theme-red">
     <!-- Page Loader -->
@@ -281,7 +281,7 @@
       ?>
       <section class="content">
             <div class="container-fluid">
-              <div class="alert alert-info alert-dismissible" role="alert">
+              <div class="alert alert-<?= $this->session->flashdata('class') ?> alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -305,7 +305,7 @@ else
       {
         ?>
         <div class="container-fluid">
-          <div class="alert alert-info alert-dismissible" role="alert">
+          <div class="alert alert-<?= $this->session->flashdata('class') ?> alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

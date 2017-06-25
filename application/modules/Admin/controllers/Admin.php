@@ -6,6 +6,7 @@ class Admin extends Admin_Controller {
 		* @Email				: quentin.lebian@pilotaweb.fr
 		* @Web					: https://pilotaweb.fr
 		* @Date					: 2017-06-23 19:20:00
+		* @See					: Admin_Controller class
 	**/
 
 	public function __construct()
@@ -17,11 +18,5 @@ class Admin extends Admin_Controller {
 	{
 		//print_r($this->router->routes);
 		$this->render('dashboard');
-	}
-
-	public function login()
-	{
-		//print_r($this->router->routes);
-		$this->render('login');
 	}
 }

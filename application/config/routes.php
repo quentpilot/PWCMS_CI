@@ -59,8 +59,10 @@ $route['admin/dashboard'] = 'Admin/index';
 $route['admin/login'] = 'AdminUser/login';
 $route['admin/logout'] = 'AdminUser/logout';
 $route['admin/subscribe'] = 'AdminUser/subscribe';
+$route['admin/valid-account/(:any)/(:any)'] = 'AdminUser/validAccount/$1/$2';
 $route['admin/forgot-password'] = 'AdminUser/forgotPass';
 $route['admin/new-password'] = 'AdminUser/newPass';
+$route['admin/profile/(:any)'] = 'AdminUser/profile/$1';
 
 		/* public routes */
 $route['index'] = 'Index';
