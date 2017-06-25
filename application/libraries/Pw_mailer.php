@@ -45,7 +45,38 @@ class Pw_mailer extends PW_Controller {
 
     public function send($data = NULL)
     {
-        if (!$this->set && is_null($data))
+        $destinataire = 'quentin.lebian@pilotaweb.fr';
+        // Pour les champs $expediteur / $copie / $destinataire, séparer par une virgule s'il y a plusieurs adresses
+        $expediteur = 'quent.ktm@gmail.com';
+        $copie = 'adresse@fai.com';
+        $copie_cachee = 'adresse@fai.com';
+        $objet = 'Test'; // Objet du message
+        $headers  = 'MIME-Version: 1.0' . "\n"; // Version MIME
+        $headers .= 'Reply-To: '.$expediteur."\n"; // Mail de reponse
+        $headers .= 'From: "PW Admin"<'.$expediteur.'>'."\n"; // Expediteur
+        $headers .= 'Delivered-to: '.$destinataire."\n"; // Destinataire
+        //$headers .= 'Cc: '.$copie."\n"; // Copie Cc
+        //$headers .= 'Bcc: '.$copie_cachee."\n\n"; // Copie cachée Bcc        
+        $message = 'Un Bonjour de Developpez.com!';
+        if (mail($destinataire, $objet, $message, $headers)) // Envoi du message
+            return true;
+        return false;
+
+        /*$this->load->library('email');
+
+        $this->email->from('quent.ktm@gmail.com', 'Admin PWCMS');
+        $this->email->to("quentin.lebian@pilotaweb.fr");
+        $this->email->cc('another@another-example.com');
+        $this->email->bcc('them@their-example.com');
+
+        $this->email->subject('Valid account');
+        $this->email->message('Hello man');
+        //debug($this->email);
+        if (!$this->email->send())
+            return false;
+        return true;*/
+
+        /*if (!$this->set)
             return false;
         elseif (!is_null($data))
         {
@@ -53,15 +84,18 @@ class Pw_mailer extends PW_Controller {
                 return false;
         }
         if (!$this->send_email_type())
+        {
+            echo 'mail type error';
             return false;
-        return true;
+        }*/
+        return false;
     }
 
     protected function valid_data($data = NULL)
     {
         if ($data == NULL)
             return false;
-        $rows = array('object', 'message', 'from', 'to');
+        $rows = array('object', 'message', 'from', 'to', 'reply_to', 'cc', 'bcc', 'type', 'from_name');
         $do_not_set = array('set', 'data', 'header');
         foreach ($data as $row => $value)
         {
@@ -87,14 +121,14 @@ class Pw_mailer extends PW_Controller {
         if (!is_null($this->reply_to))
             $headers .= 'Reply-To: '.$this->from."\n"; // Mail de reponse
         
-        $headers .= 'From: "'.$this->from_name.'"<'.$this->from.'>'."\n"; // Expediteur
+        $headers .= 'From: '.$this->from ."\n"; // Expediteur
         $headers .= 'Delivered-to: '.$this->to."\n"; // Destinataire
         
         if (!is_null($this->cc))
             $headers .= 'Cc: '.$this->cc."\n"; // Copie Cc
         if (!is_null($this->bcc))
             $headers .= 'Bcc: '.$this->bcc."\n\n"; // Copie cachée Bcc
-        
+    
         $headers .= "\r\n\r\n";
         $this->header = $headers;
         return true;

@@ -16,12 +16,15 @@ class Adminuser_Model extends PW_Model {
 
 	public function checkSubscribe($form = NULL)
 	{
+		//debug($form);
 		if (is_null($form))
 			return false;
-		return false;
+		//debug($form);
+		//echo 'valid token';
 		// check each form data I want and then return an array formated for valid_subscribe() method
-		if (!isValidInviteToken($form['invite_token']))
-			return false;
+		if (!$this->isValidInviteToken($form['invite_token']))
+			//return false;
+			return 'invite_token';
 
 		unset($form['submit']);
 		unset($form['confirm_password']);
@@ -31,21 +34,24 @@ class Adminuser_Model extends PW_Model {
 			unset($form['salt']);
 		
 		$salt = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM);
+		//$salt = 'default';
 		$options = [
     			'cost' => 11,
-    			'salt' => $salt,
+    			'salt' => $salt
     	];
-		
+		$date = date('Y-m-d H:i:s');
 		$form['password'] = password_hash($form['password'], PASSWORD_BCRYPT);
 		$form['token'] = genereToken();
 		$form['salt'] = NULL;
-		$form['register_date'] = 'NOW()';
+		$form['register_date'] = $date;
 		return $form;
 	}
 
 	protected function isValidInviteToken($token = NULL)
 	{
-		if (is_null($token))
+		if (is_null($token) && !is_null($_POST['invite_token']))
+			$token == $_POST['invite_token'];
+		elseif (is_null($token) && is_null($_POST['invite_token']))
 			return false;
 		$req = $this->db->select('invite_token')
 						->where('id', 1)

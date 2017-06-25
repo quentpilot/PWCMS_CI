@@ -33,47 +33,69 @@ class AdminUser extends PW_Controller {
 
 	public function subscribe()
 	{
+		// load related AdminUser model
+		$this->load->model('adminuser_model');
+		
+		//$this->form_validation->set_rules('invite_token', "code d'invitation", 'callback_valid_invite_token');
+
 		// check if some for has been submited
 		// rules are in application/config/development/form_validation.php file
 		if ($this->form_validation->run('admin_subscription'))
 		{
-			$this->load->model('adminuser_model');
 			// setting data to add for valid_subscribe()
 			$form = $_POST;
 			// check if first step subscription like save user and send email
+			$check = false;
+			$user = false;
 			$check = $this->adminuser_model->checkSubscribe($form);
 			$user = $this->pw_user->valid_subscribe($check);
 			$this->data['check'] = $check;
 			$this->data['user'] = $user;
-			if ($check && $user)
+			if ($check && $check != 'invite_token' && $user)
 			{
 				// set flash message alert to advice user
 				$msg_tab = array(
-					'message' => "Un email vous a été envoyé afin de valider l'inscription.",
+					'message' => "<b>Un email vous a été envoyé afin de valider l'inscription.</b>",
 					'class' => 'success',
 					'type' => 'flash'
 				);
-				$_SESSION['message'] = "Un email vous a été envoyé afin de valider l'inscription.";
-				$_SESSION['class'] = "success";
+			}
+			elseif ($check == 'invite_token')
+			{
+				$this->form_validation->set_message('invite_token', "Le code d'invitation n'est pas reconnu.");
+				// set flash message alert to advice user
+				$msg_tab = array(
+					'message' => "<b>Le code d'invitation ne correspond pas.</b>",
+					'class' => 'danger',
+					'type' => 'flash'
+				);
 			}
 			else
 			{
 				// set flash message alert to advice user
 				$msg_tab = array(
-					'message' => "Une erreur s'est produite lors de la tentative d'inscription.",
+					'message' => "<b>Une erreur s'est produite lors de la tentative d'inscription.</b>",
 					'class' => 'warning',
 					'type' => 'flash'
 				);
-				$_SESSION['message'] = "Une erreur s'est produite lors de la tentative d'inscription.";
-				$_SESSION['class'] = "warning";
 			}
 			// set session flash alert message
-			$this->session->set_flashdata(array('message', 'class'));
+			$this->session->set_flashdata($msg_tab);
 			//$this->pw_user->alert($msg_tab);
 		}
 
 		$this->data['subscribe_step'] = 1;
 		$this->render($this->data['render_path'].'subscribe');
+	}
+
+	public function valid_invite_token($token)
+	{
+		if (!$this->adminuser_model->isValidInviteToken($token))
+		{
+			//$this->form_validation->set_message('valid_token', "Le {field} n'est pas reconnu.");
+			return false;
+		}
+		return true;
 	}
 
 	public function validAccount($username = NULL, $token = NULL)

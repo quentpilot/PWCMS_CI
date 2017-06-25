@@ -52,8 +52,11 @@ class Pw_user extends PW_Controller {
 		}
 		unset($form['step']);
 		// insert new user data
-		if (!($user_id = $this->pw_database->insert('users', $form)))
+		if (!($user_id = $this->pw_database->insert($form, 'users')))
+		{
+			echo 'insert error';
 			return false;
+		}
 		
 		// get cms settings to get default users groups rights to set following app
 		$cms_settings = $this->pw_database->get('cms_settings', array('id', 1));
@@ -67,11 +70,12 @@ class Pw_user extends PW_Controller {
 		$related_groups = array('user_id' => $user_id, 'group_id' => $group_id);
 		
 		// insert related groups
-		if (!$this->pw_database->insert('related_groups', $related_groups))
+		if (!$this->pw_database->insert($related_groups, 'related_groups'))
 			return false;
 		
 		// send email
-		$this->send_subscribe_email($form, $cms_settings['contact_email']);
+		if (!$this->send_subscribe_email($form, $cms_settings['contact_email']))
+			return false;
 		return $user_id;
 	}
 
@@ -79,25 +83,35 @@ class Pw_user extends PW_Controller {
 	{
 		if (is_null($form) || is_null($contact_email))
 			return false;
+
 		// set email config message
-		$message = 'Bonjour ' . $form['username'] . ",\r\n";
-		$message .= "Afin de valider votre compte, veuillez suivre le lien ci-dessous:\r\n";
-		$message .= '<a href="http://cms.pilotaweb.fr/admin/valid-account/'.$form['username'] . '/' . $form['token'] .'"></a>'."\r\n";
+		$message = 'Bonjour ' . $form['username'] . ",\n";
+		$message .= "Afin de valider votre compte, veuillez suivre le lien ci-dessous:\n";
+		$message .= '<a href="http://cms.pilotaweb.fr/admin/valid-account/'.$form['username'] . '/' . $form['token'] .'"></a>'."\n";
+		$message .= 'http://cms.pilotaweb.fr/admin/valid-account/'.$form['username'] . '/' . $form['token'] ."\n";
 		
 		$mail_data = array(
-			'object' => "Validation de l'inscription - PWCMS",
+			'object' => "Validation inscription PWCMS",
 			'from' => $contact_email,
 			'to' => $form['email'],
 			'reply_to' => $contact_email,
-			'message' => $message
+			'message' => $message,
+			'type' => 'text'
 		);
 		// set email info before to send
 		if (!$this->pw_mailer->set($mail_data))
+		{
+			//echo 'set email error';
 			return false;
+		}
 
 		// send validation step email to user
 		if (!$this->pw_mailer->send())
+		{
+			echo 'send email error';
 			return false;
+		}
+		return true;
 	}
 
 	public function alert($data = NULL)

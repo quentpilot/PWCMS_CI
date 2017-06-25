@@ -7,7 +7,7 @@
 
 <body class="login-page">
 
-<?php debug($_POST) ?>
+<?php //debug($_POST) ?>
 
     <div class="login-box">
         <div class="logo">
@@ -18,17 +18,19 @@
         <?php
       if($this->session->flashdata('message'))
       {
+        $color = $this->session->flashdata('class');
       ?>
-      <section class="content">
-            <div class="container-fluid">
-              <div class="alert alert-<?= $this->session->flashdata('class') ?> alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+        <div class="container-fluid">
+          <div class="alert alert-<?= $color ?> alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <p>
                 <?php echo $this->session->flashdata('message');?>
-              </div>
-            </div>
-        </section>
+            </p>
+          </div>
+        </div>
+        
       <?php
       }
     ?>

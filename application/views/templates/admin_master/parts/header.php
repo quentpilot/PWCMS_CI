@@ -301,7 +301,7 @@ else
 
     /* display alert message (events) */
     
-      if($this->session->flashdata('message'))
+   /*  if($this->session->flashdata('message'))
       {
         ?>
         <div class="container-fluid">
@@ -314,7 +314,7 @@ else
         </div>
       }
 
-<?php 
-}
+<?php
+}*/
 }
 ?>

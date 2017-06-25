@@ -48,12 +48,14 @@ class Pw_database extends PW_Controller {
                         ->limit($limit)
                         ->get($table);
         }
+        if (!$req->num_rows())
+            return false;
 
         if ($class)
-            return $req->result();
+            $data = $req->result();
         elseif (!$class)
-            return $req->result_array();
-        return false;
+            $data = $req->result_array();
+        return $data[0];
     }
 
     public function insert($data = NULL, $table = NULL)
