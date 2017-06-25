@@ -24,6 +24,13 @@ class AdminUser extends PW_Controller {
 		$this->render($this->data['render_path'].'login');
 	}
 
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect('admin/login', 'refresh');
+		//$this->render($this->data['render_path'].'logout');
+	}
+
 	public function subscribe()
 	{
 		// check if some for has been submited
@@ -34,7 +41,11 @@ class AdminUser extends PW_Controller {
 			// setting data to add for valid_subscribe()
 			$form = $_POST;
 			// check if first step subscription like save user and send email
-			if (($check = $this->adminuser_model->checkSubscribe($form)) && ($user = $this->pw_user->valid_subscribe($check)))
+			$check = $this->adminuser_model->checkSubscribe($form);
+			$user = $this->pw_user->valid_subscribe($check);
+			$this->data['check'] = $check;
+			$this->data['user'] = $user;
+			if ($check && $user)
 			{
 				// set flash message alert to advice user
 				$msg_tab = array(
@@ -42,6 +53,8 @@ class AdminUser extends PW_Controller {
 					'class' => 'success',
 					'type' => 'flash'
 				);
+				$_SESSION['message'] = "Un email vous a été envoyé afin de valider l'inscription.";
+				$_SESSION['class'] = "success";
 			}
 			else
 			{
@@ -51,18 +64,16 @@ class AdminUser extends PW_Controller {
 					'class' => 'warning',
 					'type' => 'flash'
 				);
+				$_SESSION['message'] = "Une erreur s'est produite lors de la tentative d'inscription.";
+				$_SESSION['class'] = "warning";
 			}
 			// set session flash alert message
-			$this->pw_user->alert($msg_tab);
+			$this->session->set_flashdata(array('message', 'class'));
+			//$this->pw_user->alert($msg_tab);
 		}
 
 		$this->data['subscribe_step'] = 1;
 		$this->render($this->data['render_path'].'subscribe');
-	}
-
-	public function logout()
-	{
-		$this->render($this->data['render_path'].'logout');
 	}
 
 	public function validAccount($username = NULL, $token = NULL)

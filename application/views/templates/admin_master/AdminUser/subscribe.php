@@ -15,6 +15,24 @@
             <small>Inscription à l'espace d'administration de PWCMS</small>
         </div>
 
+        <?php
+      if($this->session->flashdata('message'))
+      {
+      ?>
+      <section class="content">
+            <div class="container-fluid">
+              <div class="alert alert-<?= $this->session->flashdata('class') ?> alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <?php echo $this->session->flashdata('message');?>
+              </div>
+            </div>
+        </section>
+      <?php
+      }
+    ?>
+
         <!--<div class="container-fluid" style="display: <?= $display_alert ?>">
           <div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -158,7 +176,7 @@
 
                     <div class="row">
                         <div class="col-xs-8 col-xs-offset-2">
-                            <button class="btn btn-block bg-pink waves-effect" id="submit" name="submit" type="submit">S'inscrire</button>
+                            <button class="btn btn-block bg-teal waves-effect" id="submit" name="submit" type="submit">S'inscrire</button>
                         </div>
                     </div>
                     <div class="row m-t-15 m-b--20">

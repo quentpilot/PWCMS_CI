@@ -39,6 +39,8 @@ class Adminuser_Model extends PW_Model {
 		$form['password'] = password_hash($form['password'], PASSWORD_BCRYPT);
 		$form['token'] = genereToken();
 		$form['salt'] = NULL;
+		$form['register_date'] = 'NOW()';
+		return $form;
 	}
 
 	protected function isValidInviteToken($token = NULL)

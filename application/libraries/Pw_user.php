@@ -43,6 +43,9 @@ class Pw_user extends PW_Controller {
 
 		if ($form['step'] == 2)
 		{
+			if (!isset($form['user']) || !isset($form['where']))
+				return false;
+			// update user data to active account
 			if ($this->pw_database->update($form['user'], $form['where'], 'users'))
 				return true;
 			return false;
@@ -67,6 +70,15 @@ class Pw_user extends PW_Controller {
 		if (!$this->pw_database->insert('related_groups', $related_groups))
 			return false;
 		
+		// send email
+		$this->send_subscribe_email($form, $cms_settings['contact_email']);
+		return $user_id;
+	}
+
+	protected function send_subscribe_email($form = NULL, $contact_email = NULL)
+	{
+		if (is_null($form) || is_null($contact_email))
+			return false;
 		// set email config message
 		$message = 'Bonjour ' . $form['username'] . ",\r\n";
 		$message .= "Afin de valider votre compte, veuillez suivre le lien ci-dessous:\r\n";
@@ -74,16 +86,18 @@ class Pw_user extends PW_Controller {
 		
 		$mail_data = array(
 			'object' => "Validation de l'inscription - PWCMS",
-			'header' => 'text/html',
-			'from' => "quentin.lebian@pilotaweb.fr",
+			'from' => $contact_email,
 			'to' => $form['email'],
+			'reply_to' => $contact_email,
 			'message' => $message
 		);
+		// set email info before to send
+		if (!$this->pw_mailer->set($mail_data))
+			return false;
 
 		// send validation step email to user
-		if (!$this->pw_mailer->send($mail_data))
+		if (!$this->pw_mailer->send())
 			return false;
-		return $user_id;
 	}
 
 	public function alert($data = NULL)
@@ -92,18 +106,19 @@ class Pw_user extends PW_Controller {
 		if (is_null($data) || !in_array($data['type'], $type))
 			return false;
 
+		$_SESSION['class'] = $data['class'];
 		if ($data['type'] == 'flash')
 		{
 			unset($data['type']);
 			$_SESSION['message'] = $data['message'];
-			$this->session->set_flashdata('message');
+			$this->session->set_flashdata(array('message', 'class'));
 			return true;
 		}
 		elseif ($data['type'] == 'session');
 		{
 			unset($data['type']);
 			$_SESSION['message'] = $data['message'];
-			$this->session->set_userdata('message');
+			$this->session->set_userdata(array('message', 'class'));
 			return true;
 		}
 		return false;
