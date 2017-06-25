@@ -83,7 +83,7 @@ class Pw_user extends PW_Controller {
 		// send validation step email to user
 		if (!$this->pw_mailer->send($mail_data))
 			return false;
-		return true;
+		return $user_id;
 	}
 
 	public function alert($data = NULL)
