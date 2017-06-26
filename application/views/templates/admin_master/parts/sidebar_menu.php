@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
+<?php $user = getUser(); ?>
 <!-- #Top Bar -->
     <section>
         <!-- Left Sidebar -->
@@ -9,12 +10,12 @@
                     <img src="<?= site_url('assets/admin/admin_master/images/user.png') ?>" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= $user['username'] ?></div>
+                    <div class="email"><?= $user['email'] ?></div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="<?= site_url('admin/profile/'.$_SESSION['user']['username'].'') ?>"><i class="material-icons">person</i>Mon profil</a></li>
+                            <li><a href="<?= site_url('admin/edit-profile/'.$_SESSION['user']['username'].'') ?>"><i class="material-icons">person</i>Mon profil</a></li>
                             <li role="seperator" class="divider"></li>
                             <li><a href="<?= site_url('admin/account') ?>"><i class="material-icons">group</i>Mon compte</a></li>
                             <li><a href="<?= site_url('admin/timeline') ?>"><i class="material-icons">shopping_cart</i>Ma timeline</a></li>

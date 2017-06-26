@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title><?= $page_title;?></title>
+<title><?= $page_title ?></title>
 
 <link rel="icon" href="<?= site_url('assets/admin/admin_master/favicon.ico') ?>" type="image/x-icon">
 
@@ -276,7 +276,7 @@
 
 <!-- display alert message (events) -->
     <?php
-      if($this->session->flashdata('message'))
+      /*if($this->session->flashdata('message'))
       {
       ?>
       <section class="content alert alert-<?= $this->session->flashdata('class') ?> alert-dismissible" role="alert">
@@ -288,7 +288,7 @@
             </div>
         </section>
       <?php
-      }
+      }*/
     ?>
 
 <?php

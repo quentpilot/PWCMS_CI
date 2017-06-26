@@ -11,12 +11,16 @@ class Admin extends Admin_Controller {
 
 	public function __construct()
 	{
-		parent::__construct();
+		// set parameters for '$render_path' var
+		// used for render() method when calling view to application/views/templates/
+		parent::__construct('admin_master', 'Admin');
 	}
 
 	public function index()
 	{
 		//print_r($this->router->routes);
-		$this->render('dashboard');
+		$this->data['page_title'] = 'PWCMS - Dashboard';
+		$this->data['module_title'] = 'Welcome to your dashboard';
+		$this->render($this->data['render_path'] . 'dashboard');
 	}
 }

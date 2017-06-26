@@ -17,19 +17,23 @@ class PW_Controller extends MX_Controller
     // load parent constructor
     parent::__construct();
 
-    // set data attibutes which will be load to view file
-    $this->data['page_title'] = 'PWCMS'; // main page title
-    $this->data['head_link'] = ''; // CSS links to add between <head></head>
-    $this->data['body_link'] = ''; // JS links to add between <body></body>
-    $this->data['template'] = $template; // template folder name to load assets and views
-    $this->data['controller_class'] = $class_name;
-    $this->data['render_path'] = 'templates/'.$this->data['template'].'/'.$this->data['controller_class'] . '/';
-  
     // load external classes by default
     $this->load->library('pw_database');
     $this->load->library('pw_mailer');
     $this->load->library('pw_user');
     $this->load->library('pw_form');
+
+    // set data attibutes which will be load to view file
+    $this->data['user_data'] = (!isset($_SESSION['user']) ? NULL : $_SESSION['user']);
+    $this->data['page_title'] = 'PWCMS'; // main page title
+    $this->data['module_title'] = $this->data['page_title']; // main module title
+    $this->data['head_link'] = ''; // CSS links to add between <head></head>
+    $this->data['body_link'] = ''; // JS links to add between <body></body>
+    $this->data['template'] = $template; // template folder name to load assets and views
+    $this->data['flash_alert'] = $this->showAlert();
+    $this->data['form_error'] = $this->showError();
+    $this->data['controller_class'] = $class_name;
+    $this->data['render_path'] = 'templates/'.$this->data['template'].'/'.$this->data['controller_class'] . '/';
   }
 
   protected function render($view = NULL, $template = 'master')
@@ -47,6 +51,51 @@ class PW_Controller extends MX_Controller
       $this->data['view_content'] = (is_null($view)) ? '' : $this->load->view($view, $this->data, TRUE);
       $this->load->view('templates/' . $template, $this->data);
     }
+  }
+
+  protected function showAlert()
+  {
+    if($this->session->flashdata('message'))
+    {
+      $color = $this->session->flashdata('class');
+      $message = $this->session->flashdata('message');
+      $string = '';
+      $string .= '
+              <div class="container-fluid">
+                <div class="alert alert-'.$color.' alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                                    '.$message.'
+                </div>
+              </div>
+      ';
+      return $string;
+    }
+    return NULL;
+  }
+
+  protected function showError()
+  {
+      if($this->session->flashdata('message'))
+      {
+
+          $color = $this->session->flashdata('class');
+          $message = $this->session->flashdata('message');
+          $string = '';
+          $string .= '
+                <div class="container-fluid">
+                  <div class="alert alert-'.$color.' alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                                      '.$message.'
+                  </div>
+                </div>
+          ';
+          return $string;
+      }
+  return NULL;
   }
 
   /*protected function _css($path = NULL, $tag = 'head')

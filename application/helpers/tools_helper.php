@@ -1,6 +1,43 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
+** return => bool
+** check if user session isset
+** author => Quentin
+*/
+
+function isLoged()
+{
+      if (isset($_SESSION['user']))
+            return $_SESSION['user'];
+      return false;
+}
+
+/*
+** return => bool
+** check if user session isset
+** author => Quentin
+*/
+
+function getUser()
+{
+      if (isset($_SESSION['user']))
+            return $_SESSION['user'];
+      return false;
+}
+
+/*
+** return => bool
+** check if user session isset
+** author => Quentin
+*/
+
+function isAdmin()
+{
+      return false;
+}
+
+/*
 ** param => int length of the string to return
 ** return => string
 ** genere token (crypted string)

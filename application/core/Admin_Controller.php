@@ -10,17 +10,19 @@ class Admin_Controller extends PW_Controller
     * @See          : PW_Controller class
   **/
 
-  function __construct()
+  function __construct($template = 'admin_master', $class_name = 'Admin_Controller')
   {
-    parent::__construct();
+    parent::__construct('admin_template');
     if (!$this->pw_user->isLoged())
     {
       // redirect user to login page
       redirect('admin/login', 'refresh');
     }
-    $this->data['current_user'] = $this->ion_auth->user()->row();
     $this->data['current_user_menu'] = '';
-    $this->data['template'] = 'admin_master';
+    $this->data['template'] = $template;
+    $this->data['controller_class'] = $class_name;
+    $this->data['render_path'] = 'templates/'.$this->data['template'].'/'.$this->data['controller_class'] . '/';
+
     // replace ion_auth by my check
     if($this->pw_user->inGroup('admin'))
     {
