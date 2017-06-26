@@ -54,7 +54,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <input type="email" id="email" name="email" class="form-control input-lg" 
-                                    value="<?= set_value('username', $user_data['username']) ?>">
+                                    value="<?= set_value('email', $user_data['email']) ?>">
                                     <label class="form-label">Nom d'utilisateur</label>
                                 </div>
                             </div>
