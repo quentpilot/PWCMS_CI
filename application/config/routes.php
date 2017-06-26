@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | Please see the user guide for complete details:
 |
-|	https://codeigniter.com/user_guide/general/routing.html
+|	http://codeigniter.com/user_guide/general/routing.html
 |
 | -------------------------------------------------------------------------
 | RESERVED ROUTES
@@ -49,9 +49,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'admin/dashboard';
+$route['default_controller'] = 'User/login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-/* PWCMS default routes */
-$route['admin'] = 'admin/dashboard';
+		/* admin routes */
+$route['admin'] = 'Admin/index';
+$route['admin/dashboard'] = 'Admin/index';
+$route['admin/login'] = 'AdminUser/login';
+$route['admin/logout'] = 'AdminUser/logout';
+$route['admin/subscribe'] = 'AdminUser/subscribe';
+$route['admin/valid-account/(:any)/(:any)'] = 'AdminUser/validAccount/$1/$2';
+$route['admin/forgot-password'] = 'AdminUser/forgotPass';
+$route['admin/new-password/(:any)'] = 'AdminUser/newPass/$1';
+$route['admin/profile/(:any)'] = 'AdminUser/profile/$1';
+
+		/* public routes */
+$route['index'] = 'Index';
+$route['login'] = 'User/login';
+$route['logout'] = 'User/logout';
+$route['subscribe'] = 'User/subscribe';
+$route['forgot-password'] = 'User/forgotPass';
+$route['new-password'] = 'User/newPass';
+$route['page/(:any)'] = 'Public/page/$1';
+$route['article/(:any)'] = 'Public/showArticle/$1';
+$route['articles'] = 'Public/listArticle';
+$route['article/(:any)/new-comment'] = 'Comments/new/$1';
+$route['article/(:any)/edit-comment'] = 'Comments/edit/$1';
+$route['article/(:any)/new-comment/(:any)'] = 'Comments/delete/$2';
+
+
+		/* main CMS modules */
+
+
+/* Shop module */
+$route['admin/shop'] = 'Shop/index';
+
+/* Blog module */
+$route['admin/blog'] = 'Blog/index';
+
+/* Settings module */
+$route['admin/settings'] = 'Settings/index';
+
+/* Items module */
+$route['admin/items'] = 'Items/index';
+
+/* Categories module */
+$route['admin/categories'] = 'Categories/index';
+
+/* Users module */
+$route['admin/users'] = 'Users/index';
+
+
+
+		/* main extern modules */
+
+
+		/* TESTS */
+
+/*$route['admin/plugin/(:any)'] = function($plugin = NULL)
+{
+	return ucfirst($plugin) . '/index';
+};*/
+//$route['admin/plugin/(:any)'] = 'Plugin/run';
+
+/* public routes */
+$route['welcome'] = 'Welcome/index';
+$route['inbox'] = 'Inbox/index';
