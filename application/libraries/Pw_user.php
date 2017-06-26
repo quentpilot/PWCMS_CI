@@ -33,11 +33,18 @@ class Pw_user extends PW_Controller {
 		return true;
 	}
 
+	public function getUser()
+	{
+		if ($this->session->has_userdata('user'))
+			return $_SESSION['user'];
+		return false;
+	}
+
 	public function valid_subscribe($form = NULL, $app = 'admin')
 	{
 		$step = array('1', '2');
 		$apps = array('admin', 'public');
-
+		//debug($form);
 		if (is_null($form) || !in_array($form['step'], $step) || !in_array($app, $apps))
 			return false;
 
@@ -51,15 +58,19 @@ class Pw_user extends PW_Controller {
 			return false;
 		}
 		unset($form['step']);
+
+		// get cms settings to get default users groups rights to set following app
+		$cms_settings = $this->pw_database->get('cms_settings', array('id', 1));
+
+		// set default max password restore user can use
+		$form['max_forgot_pass'] = $cms_settings['max_forgot_pass'];
+
 		// insert new user data
 		if (!($user_id = $this->pw_database->insert($form, 'users')))
 		{
 			echo 'insert error';
 			return false;
 		}
-		
-		// get cms settings to get default users groups rights to set following app
-		$cms_settings = $this->pw_database->get('cms_settings', array('id', 1));
 
 		if ($app == 'admin')
 			$group_id = $cms_settings['admin_subscribe_group'];		
@@ -79,38 +90,39 @@ class Pw_user extends PW_Controller {
 		return $user_id;
 	}
 
-	protected function send_subscribe_email($form = NULL, $contact_email = NULL)
+	public function valid_login($form = NULL)
 	{
-		if (is_null($form) || is_null($contact_email))
+		if (is_null($form) || !isset($form['set']))
 			return false;
+		if (!$this->pw_database->update($form['user'], $form['where'], 'users'))
+			return false;
+		$_SESSION['user'] = $this->pw_database->get('users', $form['where']);
+		return true;
+	}
 
-		// set email config message
-		$message = 'Bonjour ' . $form['username'] . ",\n";
-		$message .= "Afin de valider votre compte, veuillez suivre le lien ci-dessous:\n";
-		$message .= '<a href="http://cms.pilotaweb.fr/admin/valid-account/'.$form['username'] . '/' . $form['token'] .'"></a>'."\n";
-		$message .= 'http://cms.pilotaweb.fr/admin/valid-account/'.$form['username'] . '/' . $form['token'] ."\n";
-		
-		$mail_data = array(
-			'object' => "Validation inscription PWCMS",
-			'from' => $contact_email,
-			'to' => $form['email'],
-			'reply_to' => $contact_email,
-			'message' => $message,
-			'type' => 'text'
-		);
-		// set email info before to send
-		if (!$this->pw_mailer->set($mail_data))
-		{
-			//echo 'set email error';
+	public function valid_forgot_pass($form = NULL)
+	{
+		if (is_null($form) || !isset($form['set']))
 			return false;
-		}
+		if (!$this->pw_database->update($form['user'], $form['where'], 'users'))
+			return false;
+		if (!($user = $this->pw_database->get('users', $form['where'])))
+			return false;
+		if (!($cms_settings = $this->pw_database->get('cms_settings', array('id', 1))))
+			return false;
+		$form['user'] = $user;
+		$form['config'] = $cms_settings;
+		if (!$this->send_forgot_pass_email($form))
+			return false;
+		return $form;
+	}
 
-		// send validation step email to user
-		if (!$this->pw_mailer->send())
-		{
-			echo 'send email error';
+	public function valid_new_pass($form = NULL)
+	{
+		if (is_null($form) || !isset($form['set']))
 			return false;
-		}
+		if (!$this->pw_database->update($form['user'], $form['where'], 'users'))
+			return false;
 		return true;
 	}
 
@@ -125,7 +137,7 @@ class Pw_user extends PW_Controller {
 		{
 			unset($data['type']);
 			$_SESSION['message'] = $data['message'];
-			$this->session->set_flashdata(array('message', 'class'));
+			$this->session->set_flashdata('message', 'class');
 			return true;
 		}
 		elseif ($data['type'] == 'session');
@@ -136,5 +148,60 @@ class Pw_user extends PW_Controller {
 			return true;
 		}
 		return false;
+	}
+
+	protected function send_subscribe_email($form = NULL, $contact_email = NULL)
+	{
+		if (is_null($form) || is_null($contact_email))
+			return false;
+
+		// set email config message
+		$message = 'Bonjour ' . $form['username'] . ",<br>";
+		$message .= "Afin de valider votre compte, veuillez suivre le lien ci-dessous:<br>";
+		$message .= '<a href="http://cms.pilotaweb.fr/admin/valid-account/'.$form['username'] . '/' . $form['token'] .'" class="btn">Valider l\'inscription</a><br>';
+		
+		$mail_data = array(
+			'object' => "Validation inscription PWCMS",
+			'from' => $contact_email,
+			'to' => $form['email'],
+			'reply_to' => $contact_email,
+			'message' => $message
+		);
+		// set email info before to send
+		if (!$this->pw_mailer->set($mail_data))
+			return false;
+
+		// send validation step email to user
+		if (!$this->pw_mailer->send())
+			return false;
+		return true;
+	}
+
+	protected function send_forgot_pass_email($form = NULL)
+	{
+		if (is_null($form))
+			return false;
+
+		// set email config message
+		$message = 'Bonjour ' . $form['user']['username'] . ",<br>";
+		$message .= "Afin de créer un nouveau mot de passe, veuillez suivre le lien ci-dessous:<br>";
+		$message .= '<a href="http://cms.pilotaweb.fr/admin/new-password/'.$form['user']['username'].'" class="btn">
+		Nouveau mot de passe</a><br>';
+		
+		$mail_data = array(
+			'object' => "Validation inscription PWCMS",
+			'from' => $form['config']['contact_email'],
+			'to' => $form['user']['email'],
+			'reply_to' => $form['config']['contact_email'],
+			'message' => $message
+		);
+		// set email info before to send
+		if (!$this->pw_mailer->set($mail_data))
+			return false;
+
+		// send validation step email to user
+		if (!$this->pw_mailer->send())
+			return false;
+		return true;
 	}
 }

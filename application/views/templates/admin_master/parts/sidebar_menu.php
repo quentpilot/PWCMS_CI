@@ -14,13 +14,13 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="<?= site_url('admin/user/profile') ?>"><i class="material-icons">person</i>Mon profil</a></li>
+                            <li><a href="<?= site_url('admin/profile/'.$_SESSION['user']['username'].'') ?>"><i class="material-icons">person</i>Mon profil</a></li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="<?= site_url('admin/user/account') ?>"><i class="material-icons">group</i>Mon compte</a></li>
-                            <li><a href="<?= site_url('admin/user/timeline') ?>"><i class="material-icons">shopping_cart</i>Ma timeline</a></li>
-                            <li><a href="<?= site_url('admin/user/settings') ?>"><i class="material-icons">favorite</i>Mes paramètres</a></li>
+                            <li><a href="<?= site_url('admin/account') ?>"><i class="material-icons">group</i>Mon compte</a></li>
+                            <li><a href="<?= site_url('admin/timeline') ?>"><i class="material-icons">shopping_cart</i>Ma timeline</a></li>
+                            <li><a href="<?= site_url('admin/settings') ?>"><i class="material-icons">favorite</i>Mes paramètres</a></li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="<?= site_url('admin/user/logout') ?>"><i class="material-icons">input</i>Me déconnecter</a></li>
+                            <li><a href="<?= site_url('admin/logout') ?>"><i class="material-icons">input</i>Me déconnecter</a></li>
                         </ul>
                     </div>
                 </div>

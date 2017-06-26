@@ -56,5 +56,57 @@ $config = array(
 								'vitoken' => "Le code d'invitation n'est pas reconnu."
 							)*/
 						)
+	),
+
+	'admin_login' => array(
+						array(
+							'field' => 'username',
+							'label' => "nom d'utilisateur", 
+							'rules' => 'required|trim|min_length[6]',
+							'errors' => array(
+									'min_length' => "Le %s doit avoir au moins 6 caractères, sans espace.",
+									'is_unique' => "Ce %s existe déjà. Veuillez en choisir un autre."
+							)
+						),
+						array(
+							'field' => 'password',
+							'label' => "mot de passe", 
+							'rules' => 'required|trim|min_length[8]',
+							'errors' => array(
+									'min_length' => "Le %s doit avoir au moins 8 caractères."
+							)
+						)
+	),
+
+	'admin_forgot_pass' => array(
+						array(
+							'field' => 'email',
+							'label' => "adresse email", 
+							'rules' => 'required|trim|valid_email',
+							'errors' => array(
+									'required' => "L'%s ne doit pas être vide.",
+									'valid_email' => "Cette %s doit être dans un format valide."
+							)
+						)
+	),
+
+	'admin_new_pass' => array(
+					array(
+							'field' => 'password',
+							'label' => "mot de passe", 
+							'rules' => 'required|trim|min_length[8]|matches[confirm_password]',
+							'errors' => array(
+									'min_length' => "Le %s doit avoir au moins 8 caractères."
+							)
+						),
+						array(
+							'field' => 'confirm_password',
+							'label' => "confirmation du mot de passe", 
+							'rules' => 'required|trim|min_length[8]|matches[password]',
+							'errors' => array(
+									'min_length' => "La %s doit avoir au moins 8 caractères."
+							)
+						)
 	)
+	
 );

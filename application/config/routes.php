@@ -61,7 +61,7 @@ $route['admin/logout'] = 'AdminUser/logout';
 $route['admin/subscribe'] = 'AdminUser/subscribe';
 $route['admin/valid-account/(:any)/(:any)'] = 'AdminUser/validAccount/$1/$2';
 $route['admin/forgot-password'] = 'AdminUser/forgotPass';
-$route['admin/new-password'] = 'AdminUser/newPass';
+$route['admin/new-password/(:any)'] = 'AdminUser/newPass/$1';
 $route['admin/profile/(:any)'] = 'AdminUser/profile/$1';
 
 		/* public routes */
