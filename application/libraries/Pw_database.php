@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
-class Pw_database extends PW_Controller {
+class Pw_database extends MX_Controller {
 
 	/**
     * @Author       : quentpilot {Quentin Le Bian}
@@ -13,7 +13,8 @@ class Pw_database extends PW_Controller {
 
 	function __construct()
 	{
-		parent::__construct();
+		//parent::__construct();
+        
 	}
 
     public function count($table = NULL, $where = NULL, $order_by = 'id')
@@ -28,21 +29,20 @@ class Pw_database extends PW_Controller {
         return $req->num_row();
     }
 
-    public function get($table = NULL, $where = NULL, $order_by = 'id', $limit = NULL, $class = false)
+    public function get($table = NULL, $where = NULL, $cols = NULL, $order_by = 'id', $limit = NULL, $class = false)
     {
         if (is_null($table) || is_null($where) || is_null($order_by))
             return false;
-
         if (is_null($limit))
         {
-            $req = $this->db->select()
+            $req = $this->db->select($cols)
                         ->where($where)
                         ->order_by($order_by)
                         ->get($table);
         }
         else
         {
-            $req = $this->db->select()
+            $req = $this->db->select($cols)
                         ->where($where)
                         ->order_by($order_by)
                         ->limit($limit)

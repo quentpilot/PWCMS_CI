@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'Public/index';
+$route['default_controller'] = 'Index/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -63,7 +63,7 @@ $route['admin/forgot-password'] = 'AdminUser/forgotPass';
 $route['admin/new-password/(:any)'] = 'AdminUser/newPass/$1';
 
 		/* base public routes */
-$route['index'] = 'Index';
+//$route['index'] = 'Public/index';
 $route['login'] = 'User/login';
 $route['logout'] = 'User/logout';
 $route['subscribe'] = 'User/subscribe';
@@ -76,9 +76,9 @@ $route['new-password'] = 'User/newPass';
 $route['admin/dashboard'] = 'Admin/index';
 
 /*Public module */
-$route['page/(:any)'] = 'Public/page/$1';
-$route['article/(:any)'] = 'Public/showArticle/$1';
-$route['articles'] = 'Public/listArticle';
+$route['page/(:any)'] = 'Index/page/$1';
+$route['article/(:any)'] = 'Index/showArticle/$1';
+$route['articles'] = 'Index/listArticle';
 
 /* Users module */
 $route['admin/profile/(:any)'] = 'Users/profile/$1';

@@ -10,9 +10,9 @@ class Admin_Controller extends PW_Controller
     * @See          : PW_Controller class
   **/
 
-  function __construct($template = 'admin_master', $class_name = 'Admin_Controller')
+  function __construct($class_name = 'Admin', $template = 'admin_master')
   {
-    parent::__construct('admin_template');
+    parent::__construct($class_name, $template);
     if (!$this->pw_user->isLoged())
     {
       // redirect user to login page

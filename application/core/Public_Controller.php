@@ -10,15 +10,13 @@ class Public_Controller extends PW_Controller
     * @See          : PW_Controller class
   **/
 
-  function __construct()
+  function __construct($class_name = 'Index', $template = 'public_master')
   {
-    parent::__construct();
-    $this->data['template'] = 'public_master';
-    $this->data['current_user'] = $this->ion_auth->user()->row();
+    parent::__construct($class_name, $template);
+    $this->data['template'] = $this->getTemplate('public');
     $this->data['navbar_menu'] = $this->load->view('templates/'.$this->data['template'].'/parts/navbar_menu.php', NULL, TRUE);
     $this->data['sidebar_menu'] = '';
     $this->data['page_title'] = 'PWCMS - Welcome';
-    $this->data['template'] = 'public_master';
   }
 
   protected function render($view = NULL, $template = 'public_master')

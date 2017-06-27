@@ -12,13 +12,13 @@ class PW_Controller extends MX_Controller
 
   protected $data = array();
 
-  function __construct($template = 'master', $class_name = 'PW_Controller')
+  function __construct($class_name = 'PW_Controller', $template = 'master')
   {
     // load parent constructor
     parent::__construct();
 
     // load external classes by default
-    $this->load->library('pw_database');
+    //$this->load->library('pw_database');
     $this->load->library('pw_mailer');
     $this->load->library('pw_user');
     $this->load->library('pw_form');
@@ -29,7 +29,9 @@ class PW_Controller extends MX_Controller
     $this->data['module_title'] = $this->data['page_title']; // main module title
     $this->data['head_link'] = ''; // CSS links to add between <head></head>
     $this->data['body_link'] = ''; // JS links to add between <body></body>
-    $this->data['template'] = $template; // template folder name to load assets and views
+    $this->data['tmp_template'] = $template; // template folder name to load assets and views
+    $this->data['template'] = $this->getTemplate(); // template folder name to load assets and views
+    $this->data['current_template'] = $this->getTemplate(); // template folder name to load assets and views
     $this->data['flash_alert'] = $this->showAlert();
     $this->data['form_error'] = $this->showError();
     $this->data['controller_class'] = $class_name;
@@ -51,6 +53,19 @@ class PW_Controller extends MX_Controller
       $this->data['view_content'] = (is_null($view)) ? '' : $this->load->view($view, $this->data, TRUE);
       $this->load->view('templates/' . $template, $this->data);
     }
+  }
+
+  protected function getTemplate($app = 'admin')
+  {
+    $apps = array('admin', 'public');
+    if (!in_array($app, $apps))
+      return 'admin_master';
+    if ($this->data['tmp_template'] != 'master')
+      return $this->data['tmp_template'];
+    $col = $app . '_template';
+    if (($data = $this->pw_database->get('cms_settings', array('id', 1), $col)))
+      return $data[$col];
+    return 'admin_master';
   }
 
   protected function showAlert()

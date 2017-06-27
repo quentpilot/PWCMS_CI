@@ -11,7 +11,7 @@ class AdminUser extends PW_Controller {
 
 	public function __construct()
 	{
-		parent::__construct('admin_master', 'AdminUser');
+		parent::__construct('AdminUser');
 	}
 
 	public function index()

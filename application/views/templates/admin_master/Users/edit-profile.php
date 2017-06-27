@@ -6,7 +6,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    <?php //debug($user_data) ?>
+                    <?php //debug($current_template) ?>
                     Modifier le profil
                     <small>Administration</small>
                 </h2>

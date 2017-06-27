@@ -13,7 +13,7 @@ class Admin extends Admin_Controller {
 	{
 		// set parameters for '$render_path' var
 		// used for render() method when calling view to application/views/templates/
-		parent::__construct('admin_master', 'Admin');
+		parent::__construct();
 	}
 
 	public function index()
