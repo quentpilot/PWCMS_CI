@@ -36,7 +36,7 @@
 	</script>
 
 	<!-- custom css or js links -->
-	<?= $body_link ?>
+	<?php //$this->link_js() ?>
 
 	</body>
 </html>

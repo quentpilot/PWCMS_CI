@@ -113,19 +113,17 @@ $config = array(
 					array(
 							'field' => 'username',
 							'label' => "nom d'utilisateur", 
-							'rules' => 'required|trim|min_length[6]|is_unique[users.username]',
+							'rules' => 'required|trim|min_length[6]',
 							'errors' => array(
-									'min_length' => "Le %s doit avoir au moins 6 caractères, sans espace.",
-									'is_unique' => "Ce %s existe déjà. Veuillez en choisir un autre."
+									'min_length' => "Le %s doit avoir au moins 6 caractères, sans espace."
 							)
 						),
 					array(
 							'field' => 'email',
 							'label' => "adresse email", 
-							'rules' => 'required|trim|valid_email|is_unique[users.email]',
+							'rules' => 'required|trim|valid_email',
 							'errors' => array(
-									'valid_email' => "L'%s doit être dans un format valide.",
-									'is_unique' => "Cette %s existe déjà. Veuillez en choisir une autre."
+									'valid_email' => "L'%s doit être dans un format valide."
 							)
 						)
 	)

@@ -33,7 +33,8 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 
 <!-- custom css or js links -->
-<?= $head_link ?>
+<?php //$this->link_css() ?>
+
 </head>
 
 <body data-spy="scroll" data-target="#navigation" data-offset="120">

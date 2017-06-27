@@ -24,6 +24,46 @@ class Users extends Admin_Controller {
 		$this->render($this->data['render_path'] . 'dashboard');
 	}
 
+	public function viewAll()
+	{
+		$this->data['page_title'] = "PWCMS - Liste des utilisateurs";
+		$this->data['module_title'] = "Liste des utilisateurs inscrits";
+
+		$this->render($this->data['render_path'] . 'list-users');
+	}
+
+	public function viewTeam()
+	{
+		$this->data['page_title'] = "PWCMS - Liste des utilisateurs";
+		$this->data['module_title'] = "Liste des utilisateurs inscrits";
+
+		$this->render($this->data['render_path'] . 'list-users');
+	}
+
+	public function viewGroups()
+	{
+		$this->data['page_title'] = "PWCMS - Liste des utilisateurs";
+		$this->data['module_title'] = "Liste des utilisateurs inscrits";
+
+		$this->render($this->data['render_path'] . 'list-users');
+	}
+
+		public function viewFriends()
+	{
+		$this->data['page_title'] = "PWCMS - Liste des utilisateurs";
+		$this->data['module_title'] = "Liste des utilisateurs inscrits";
+
+		$this->render($this->data['render_path'] . 'list-users');
+	}
+
+		public function settings()
+	{
+		$this->data['page_title'] = "PWCMS - Liste des utilisateurs";
+		$this->data['module_title'] = "Liste des utilisateurs inscrits";
+
+		$this->render($this->data['render_path'] . 'list-users');
+	}
+
 	public function profile($username)
 	{
 		//print_r($this->router->routes);
@@ -38,15 +78,17 @@ class Users extends Admin_Controller {
 		//print_r($this->router->routes);
 		$this->data['page_title'] = "PWCMS - $username profile";
 		$this->data['module_title'] = "<b>$username</b> profile";
+		$this->load->model('users_model');
+		$msg_tab = array();
 		
 		if ($this->form_validation->run('admin_edit_profile'))
 		{
-			if ($this->users_model->checkEditProfile())
+			$form = $_POST;
+			$check = false;
+			//debug($form);
+			if (($check = $this->users_model->checkEditProfile($form)))
 			{
-				$check = false;
 				$user = false;
-				$check = $this->users_model->checkEditProfile();
-		
 				if ($check['set'])
 					$user = $this->pw_database->update($form['user'], $form['where'], 'users');
 		
@@ -68,11 +110,17 @@ class Users extends Admin_Controller {
 					);
 				}
 				// set session flash alert message
-				$this->session->set_flashdata($msg_tab);
+				//$this->session->set_flashdata($msg_tab);
 			}
 		}
 		
-		//$this->data['user_data'] = $userData;
+		/*$msg_tab = array(
+						'message' => "<b>Test message</b>",
+						'class' => 'success text-center',
+						'type' => 'flash'
+		);*/
+		$this->session->set_flashdata($msg_tab);
 		$this->render($this->data['render_path'] . 'edit-profile');
+		//$this->load->view($this->data['render_path'] . 'edit-profile');
 	}
 }

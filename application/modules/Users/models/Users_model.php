@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Adminuser_Model extends PW_Model {
+class Users_Model extends PW_Model {
 	/**
 		* @Author				: quentpilot {Quentin Le Bian}
 		* @Email				: quentin.lebian@pilotaweb.fr

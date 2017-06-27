@@ -9,7 +9,12 @@
 function isLoged()
 {
       if (isset($_SESSION['user']))
-            return $_SESSION['user'];
+      {
+            if ($_SESSION['user']['valid_email'] == 0 || $_SESSION['user']['status'] == -1)
+                  redirect('admin/login');
+            else
+                  return $_SESSION['user'];
+      }
       return false;
 }
 

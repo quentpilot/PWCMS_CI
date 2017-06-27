@@ -1,15 +1,13 @@
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-    <?php debug($_POST) ?>
-
-
+    <?= $flash_alert ?>
 
         <div class="card">
             <div class="header">
                 <h2>
                     <?php //debug($current_template) ?>
-                    Modifier le profil
+                    Modifie le profil
                     <small>Administration</small>
                 </h2>
                 <ul class="header-dropdown m-r--5">
@@ -31,11 +29,14 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                <input type="text" id="username" name="username" class="form-control input-lg" 
+                                    <input type="text" id="username" name="username" class="form-control input-lg" 
                                     value="<?= set_value('username', $user_data['username']) ?>">
                                     <label class="form-label">Nom d'utilisateur</label>
                                 </div>
                             </div>
+
+                            <?php //echo $this->showError(); ?>
+
                             <?php if (!empty(form_error('username'))) : ?>
                                 <div class="container-fluid">
                                     <div class="alert alert-warning alert-dismissible" role="alert">
@@ -46,6 +47,7 @@
                                     </div>
                                 </div>
                             <?php endif ?>
+
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">

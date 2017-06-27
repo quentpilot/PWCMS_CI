@@ -116,16 +116,16 @@
                         </a>
                         <ul class="ml-menu">
                         	<li>
-                                <a href="<?= site_url('admin/users') ?>">Tous</a>
+                                <a href="<?= site_url('admin/users/all') ?>">Tous</a>
                             </li>
                             <li>
                                 <a href="<?= site_url('admin/users/team') ?>">Team</a>
                             </li>
                             <li>
-                                <a href="<?= site_url('admin/users/connexion') ?>">Connexions</a>
+                                <a href="<?= site_url('admin/users/connect') ?>">Connexions</a>
                             </li>
                             <li>
-                                <a href="<?= site_url('admin/users/group') ?>">Groupes</a>
+                                <a href="<?= site_url('admin/users/groups') ?>">Groupes</a>
                             </li>
                             <li>
                                 <a href="<?= site_url('admin/users/settings') ?>">Paramètres</a>

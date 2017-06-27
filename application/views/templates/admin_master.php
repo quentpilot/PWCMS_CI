@@ -14,7 +14,8 @@ $this->load->view("templates/$template/parts/header"); ?>
 			
 	        <!-- display alert type bootstrap set from PW_Controller core class -->
 
-			<?= $flash_alert ?>
+			<!--<?= $flash_alert ?>-->
+			<?php $this->load->view("templates/$template/parts/flash_alert"); ?>
 
 <?php endif ?>
 

@@ -29,7 +29,11 @@
 <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
 <link href="<?= site_url('assets/admin/admin_master/css/themes/all-themes.css') ?>" rel="stylesheet" />
 
-<?= $head_link ?>
+<!-- JQuery DataTable Css -->
+<link href="<?= site_url('assets/admin/admin_master/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') ?>" rel="stylesheet">
+
+<?php //$this->link_css() ?>
+
 </head>
 <?php
   if($this->pw_user->isLoged()) {
