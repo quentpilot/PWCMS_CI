@@ -67,17 +67,6 @@
                                 </div>
                             <?php endif ?>
                         </div>
-
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" id="username" name="username" class="form-control input-lg" 
-                                    value="<?= set_value('username', $user_data['username']) ?>">
-                                    <label class="form-label">Nom d'utilisateur</label>
-                                </div>
-                            </div>
-                        </div>
-
                         <br>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <button type="submit" name="submit" id="submit" class="btn bg-teal btn-lg m-l-15 waves-effect">Sauvegarder</button>

@@ -115,6 +115,7 @@ $config = array(
 							'label' => "nom d'utilisateur", 
 							'rules' => 'required|trim|min_length[6]',
 							'errors' => array(
+									'required' => "Le champ %s est obligatoire",
 									'min_length' => "Le %s doit avoir au moins 6 caractères, sans espace."
 							)
 						),
@@ -123,6 +124,7 @@ $config = array(
 							'label' => "adresse email", 
 							'rules' => 'required|trim|valid_email',
 							'errors' => array(
+									'required' => "Le champ %s est obligatoire",
 									'valid_email' => "L'%s doit être dans un format valide."
 							)
 						)
