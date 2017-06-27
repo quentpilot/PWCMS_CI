@@ -76,50 +76,53 @@ class Users extends Admin_Controller {
 	public function editProfile($username)
 	{
 		//print_r($this->router->routes);
-		$this->data['page_title'] = "PWCMS - $username profile";
-		$this->data['module_title'] = "<b>$username</b> profile";
+		$this->data['page_title'] = "PWCMS - Profil de $username";
+		$this->data['module_title'] = "Gestion du profil de <b>$username</b>";
 		$this->load->model('users_model');
 		$msg_tab = array();
 		
 		if ($this->form_validation->run('admin_edit_profile'))
 		{
 			$form = $_POST;
+			$errors_terms = array('username', 'email', 'image', 'invite');
 			$check = false;
-			//debug($form);
-			if (($check = $this->users_model->checkEditProfile($form)))
+			$check = $this->users_model->checkEditProfile($form);
+			$this->data['check_form'] = $check;
+			if ($check && !in_array($check, $errors_terms))
 			{
 				$user = false;
-				if ($check['set'])
-					$user = $this->pw_database->update($form['user'], $form['where'], 'users');
+				$user = $this->pw_form->update($check);
 		
-				if ($check && $user)
+				if ($user)
 				{
 					// set flash message alert to advice user
 					$msg_tab = array(
 						'message' => "<b>Votre profil a été mis à jour !</b>",
-						'class' => 'primary bg-teal text-center',
-						'type' => 'flash'
+						'class' => 'primary bg-teal text-center'
 					);
 				}
 				else
 				{
+					//debug($_POST);
 					$msg_tab = array(
 						'message' => "<b>Un problème est apparu lors de la mise à jour des données</b>",
-						'class' => 'warning text-center',
-						'type' => 'flash'
+						'class' => 'warning text-center'
 					);
 				}
-				// set session flash alert message
-				//$this->session->set_flashdata($msg_tab);
+			}
+			else
+			{
+				$msg_tab = array(
+						'message' => "<b>Un problème est apparu lors de la verification des données</b>",
+						'class' => 'warning text-center'
+					);
 			}
 		}
 		
-		/*$msg_tab = array(
-						'message' => "<b>Test message</b>",
-						'class' => 'success text-center',
-						'type' => 'flash'
-		);*/
+		// set session flash alert message
 		$this->session->set_flashdata($msg_tab);
+
+		// build view
 		$this->render($this->data['render_path'] . 'edit-profile');
 		//$this->load->view($this->data['render_path'] . 'edit-profile');
 	}

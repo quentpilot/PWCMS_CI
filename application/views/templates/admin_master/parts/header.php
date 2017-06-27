@@ -32,6 +32,9 @@
 <!-- JQuery DataTable Css -->
 <link href="<?= site_url('assets/admin/admin_master/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') ?>" rel="stylesheet">
 
+<!-- Custom Css -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
 <?php //$this->link_css() ?>
 
 </head>
