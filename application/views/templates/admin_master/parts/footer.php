@@ -63,8 +63,8 @@
 <script src="<?= site_url('assets/admin/admin_master/plugins/jquery-datatable/extensions/export/buttons.print.min.js') ?>"></script>
 
 <!-- Custom Js -->
-<script src="<?= site_url('assets/admin/admin_master/js/admin.js') ?>"></script>
-<script src="<?= site_url('assets/admin/admin_master/js/pages/tables/jquery-datatable.js') ?>"></script>
+<!--<script src="<?= site_url('assets/admin/admin_master/js/admin.js') ?>"></script>
+<script src="<?= site_url('assets/admin/admin_master/js/pages/tables/jquery-datatable.js') ?>"></script>-->
 
 <?php //$this->link_js() ?>
 

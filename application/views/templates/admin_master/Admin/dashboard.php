@@ -1,4 +1,4 @@
-
+<?php debug($admin_navbar_menu) ?>
 <!-- Widgets -->
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

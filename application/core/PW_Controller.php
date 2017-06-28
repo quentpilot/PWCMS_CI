@@ -22,6 +22,7 @@ class PW_Controller extends MX_Controller
     $this->load->library('pw_mailer');
     $this->load->library('pw_user');
     $this->load->library('pw_form');
+    $this->load->library('pw_menu');
 
     // set data attibutes which will be load to view file
     //$this->data['user_data'] = (!isset($_SESSION['user']) ? NULL : $_SESSION['user']);
@@ -37,6 +38,7 @@ class PW_Controller extends MX_Controller
     $this->data['form_error'] = $this->showError();
     $this->data['controller_class'] = $class_name;
     $this->data['render_path'] = 'templates/'.$this->data['template'].'/'.$this->data['controller_class'] . '/';
+    $this->data['admin_navbar_menu'] = $this->pw_menu->build();
   }
 
   protected function render($view = NULL, $template = 'master')
