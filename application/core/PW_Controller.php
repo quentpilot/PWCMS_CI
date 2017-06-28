@@ -18,14 +18,12 @@ class PW_Controller extends MX_Controller
     parent::__construct();
 
     // load external classes by default
-    //$this->load->library('pw_database');
     $this->load->library('pw_mailer');
     $this->load->library('pw_user');
     $this->load->library('pw_form');
     $this->load->library('pw_menu');
 
     // set data attibutes which will be load to view file
-    //$this->data['user_data'] = (!isset($_SESSION['user']) ? NULL : $_SESSION['user']);
     $this->data['user_data'] = isLoged();
     $this->data['page_title'] = 'PWCMS'; // main page title
     $this->data['module_title'] = $this->data['page_title']; // main module title
@@ -34,11 +32,11 @@ class PW_Controller extends MX_Controller
     $this->data['tmp_template'] = $template; // template folder name to load assets and views
     $this->data['template'] = $this->getTemplate(); // template folder name to load assets and views
     $this->data['current_template'] = $this->getTemplate(); // template folder name to load assets and views
-    $this->data['flash_alert'] = $this->showAlert();
-    $this->data['form_error'] = $this->showError();
-    $this->data['controller_class'] = $class_name;
+    $this->data['flash_alert'] = $this->showAlert(); // load main flash alert message when load $this->session->set_flashdata()
+    $this->data['form_error'] = $this->showError(); // load error flash alert message when load next to each form input
+    $this->data['controller_class'] = $class_name; // string current child class name to identify current render path
     $this->data['render_path'] = 'templates/'.$this->data['template'].'/'.$this->data['controller_class'] . '/';
-    $this->data['admin_navbar_menu'] = $this->pw_menu->build();
+    $this->data['admin_sidebar_menu'] = $this->pw_menu->build(NULL, true, $this->data['template'], 'link'); // dynamic admin sidebar menu
   }
 
   protected function render($view = NULL, $template = 'master')

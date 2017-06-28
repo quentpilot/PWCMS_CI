@@ -1,4 +1,19 @@
-<li class="active">
+
+<?php //debug($menus) ?>
+
+<?php foreach ($menus as $key => $menu) : ?>
+        
+    <li class="<?= $menu['css_class'] ?>">
+    <a href="javascript:void(0);" class="menu-toggle">
+        <i class="material-icons"><?= $menu['icon'] ?></i>
+        <span><?= $menu['title'] ?></span>
+    </a>
+    </li>
+
+<?php endforeach ?>
+
+
+<!--<li class="active">
     <a href="javascript:void(0);" class="menu-toggle">
         <i class="material-icons">content_copy</i>
         <span>Tableaux de bord</span>
@@ -23,4 +38,4 @@
             <a href="<?= site_url('admin/dashboard/settings') ?>">Paramètres</a>
         </li>
     </ul>
-</li>
+</li>-->

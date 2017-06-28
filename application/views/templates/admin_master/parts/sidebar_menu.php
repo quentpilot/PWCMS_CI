@@ -31,7 +31,10 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="active">
+
+                    <?= $admin_sidebar_menu ?>
+
+                    <!--<li class="active">
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">content_copy</i>
                             <span>Tableaux de bord</span>
@@ -56,7 +59,7 @@
                                 <a href="<?= site_url('admin/dashboard/settings') ?>">Paramètres</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>-->
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">content_copy</i>

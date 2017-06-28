@@ -7,7 +7,7 @@ class Pw_menu extends PW_Controller {
     * @Author       : quentpilot {Quentin Le Bian}
     * @Email        : quentin.lebian@pilotaweb.fr
     * @Web          : https://pilotaweb.fr
-    * @Date         : 2017-06-23 20:00:00
+    * @Date         : 2017-06-28 07:30:42
     * @See          : PW_Controller class
   **/
 
@@ -29,18 +29,23 @@ class Pw_menu extends PW_Controller {
     public $menu_data = NULL;
     public $set = false;
 
-    function __construct()
+    function __construct($template = 'admin_master')
     {
         $this->app = 1;
         $this->group = 1;
         $this->order_by = 'position';
         $this->where = array('items.status', 1);
         $this->view = false;
-        $this->template = 'admin_master';
+        $this->template = $template;
     }
 
-    public function build($data = NULL)
+    public function build($data = NULL, $view = false, $template = 'admin_master', $view_file = NULL)
     {
+        if ($view && is_null($template) && is_null($view_file))
+            return false;
+        $this->view = $view;
+        $this->templates = $template;
+        $this->view_file = $view_file;
         if (is_null($data))
         {
             if (!$this->get())
@@ -61,7 +66,6 @@ class Pw_menu extends PW_Controller {
             return false;
         /*if (!$this->check_values($data))
             return false;*/
-        $this->set = true;
         return true;
     }
 
@@ -71,10 +75,12 @@ class Pw_menu extends PW_Controller {
         if (!$menus)
             return false;
         $this->menu_data = $menus;
-        //$menus = $this->load_app();
-        //$req = $this->db->select()
-        //debug(get_instance());
-        //$this->menu_data = 'coucou';
+        
+        $set = $this->load_attributes($menus);
+        if (!$set)
+            return false;
+        $this->set = true;
+        //$this->menu_data = $set;
         return true;
     }
 
@@ -83,12 +89,8 @@ class Pw_menu extends PW_Controller {
         if (is_null($data) || is_null($value) || is_null($row))
             return false;
 
-        //debug($data);
-
         foreach ($data as $menus)
         {
-            //debug($menus);
-            //echo $menus['name'];
             if ($menus[$row] == $value)
                 return $menus;
         }
@@ -102,21 +104,46 @@ class Pw_menu extends PW_Controller {
         if (!$categories->num_rows())
             return false;
         $cats = $categories->result_array();
-        //return $cats;
         $items = array();
         foreach ($data as $key)
         {
-            foreach ($key as $menu => $link)
+            if (($category = $this->get_item_table($cats, 'cat_id', $key['cat_id'])))
             {
-                if (($category = $this->get_item_table($cats, 'id', $key['cat_id'])))
-                {
-                    $key = array_merge($key, $category);
-                    array_push($items, $key);
-                }
+                $key = array_merge($key, $category);
+                array_push($items, $key);
             }
-            return $items;
         }
-        return false;
+        return $items;
+    }
+
+    protected function load_attributes($data = NULL)
+    {
+        $not_to_load = array('menu_data', 'set');
+        $have_to_load = array('template');
+        $tmp = array();
+        foreach ($data as $menu => $link)
+        {
+            foreach ($link as $key => $value) 
+            {
+                //debug($key);
+                if (in_array($key, $not_to_load))
+                    return false;
+                /*elseif (!in_array($key, $have_to_load) && is_null($this->template))
+                    $menu['template'] = $this->template;*/
+                    //return false;
+                if (property_exists('Pw_menu', $key))
+                    $this->$menu = $link;
+                /*else
+                    return false;*/
+            }
+            array_push($tmp, $menu);
+        }
+        return true;
+    }
+
+    protected function has_child()
+    {
+        return $this->menu_data;
     }
 
     protected function check_values($data = NULL)
@@ -138,29 +165,19 @@ class Pw_menu extends PW_Controller {
     {
         if (is_null($this->where) || is_null($this->order_by) || is_null($this->app))
             return false;
-        // get menu item type
-        /*if (!$this->set)
-            return false;*/
+        //if (!is_null($this->menu_data) && $this->check_menu_data())
+        if (!is_null($this->menu_data))
+            return $this->menu_data;
      
         $req = $this->db->select()
                     ->from('items')
                     ->where($this->where)
-                    ->join('items_category', 'items_category.item_id = items.id')
+                    ->join('items_category', 'items_category.item_id = items.id', 'inner')
                     ->join('items_style', 'items.id = items_style.item_id')
                     ->join('items_apps', 'items.id = items_apps.item_id')
                     ->join('items_groups', 'items.id = items_groups.item_id')
                     ->order_by($this->order_by)
                     ->get();
-
-        /*$req = $this->db->select()
-                    ->from('items')
-                    ->where('items.status', 1)
-                    ->join('items_category', 'items_category.item_id = items.id')
-                    ->join('items_style', 'items.id = items_style.item_id')
-                    ->join('items_apps', 'items.id = items_apps.item_id')
-                    ->join('items_groups', 'items.id = items_groups.item_id')
-                    ->order_by('position DESC')
-                    ->get();*/
 
         if (!$req->num_rows())
             return false;
@@ -181,7 +198,8 @@ class Pw_menu extends PW_Controller {
 
     protected function build_menu()
     {
-        return $this->render_out('../render/menu/' . $this->view_file);
+        $menu = array('menus' => $this->menu_data);
+        return $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file, $menu, true);
     }
 
 }

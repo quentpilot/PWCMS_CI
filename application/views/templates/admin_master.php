@@ -1,10 +1,21 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+				// display header page
 $this->load->view("templates/$template/parts/header"); ?>
+
+<!--<?= $sidebar_menu ?>-->
 
 <!-- display second part of html offset render -->
 
 <?php if (isLoged()) : ?>
+
+<?php 			// display navbar menu
+$this->load->view("templates/$template/parts/navbar_menu"); ?>
+
+<?php 			// display sidebar menu
+$this->load->view("templates/$template/parts/sidebar_menu"); ?>
+
+	<!-- common head main sections -->
 
 	<section class="content">
 	    <div class="container-fluid">
@@ -14,7 +25,6 @@ $this->load->view("templates/$template/parts/header"); ?>
 			
 	        <!-- display alert type bootstrap set from PW_Controller core class -->
 
-			<!--<?= $flash_alert ?>-->
 			<?php $this->load->view("templates/$template/parts/flash_alert"); ?>
 
 <?php endif ?>
@@ -27,9 +37,13 @@ $this->load->view("templates/$template/parts/header"); ?>
 
 <?php if (isLoged()) : ?>
 
+	<!-- common foot main sections -->
+
 		</div>
 	</section>
 
 <?php endif ?>
+
+ <!-- display header page -->
 
 <?php $this->load->view("templates/$template/parts/footer"); ?>

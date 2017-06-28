@@ -18,7 +18,6 @@ class Admin extends Admin_Controller {
 
 	public function index()
 	{
-		//print_r($this->router->routes);
 		$this->data['page_title'] = 'PWCMS - Dashboard';
 		$this->data['module_title'] = 'Welcome to your dashboard';
 		$this->render($this->data['render_path'] . 'dashboard');
