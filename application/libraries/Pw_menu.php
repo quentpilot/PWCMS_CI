@@ -26,6 +26,11 @@ class Pw_menu extends PW_Controller {
     protected $where = NULL;
     protected $view = true;
     protected $view_file = NULL;
+    protected $path_view = NULL;
+    protected $path_view_last = NULL;
+    protected $path_view_child = NULL;
+    protected $path_view_child_first = NULL;
+    protected $path_view_child_last = NULL;
     public $menu_data = NULL;
     public $set = false;
 
@@ -37,6 +42,11 @@ class Pw_menu extends PW_Controller {
         $this->where = array('items.status', 1);
         $this->view = false;
         $this->template = $template;
+        $this->path_view = "templates/$template/render/menu/".$this->view_file."/".$this->view_file;
+        $this->path_view_last = "templates/$template/render/menu/".$this->view_file."/".$this->view_file."-last";
+        $this->path_view_child_first = "templates/$template/render/menu/".$this->view_file."/".$this->view_file."-child-first";
+        $this->path_view_child = "templates/$template/render/menu/".$this->view_file."/".$this->view_file."-child";
+        $this->path_view_child_last = "templates/$template/render/menu/".$this->view_file."/".$this->view_file."-child-last";
     }
 
     public function build($data = NULL, $view = false, $template = 'admin_master', $view_file = NULL)
@@ -141,11 +151,6 @@ class Pw_menu extends PW_Controller {
         return true;
     }
 
-    protected function has_child()
-    {
-        return $this->menu_data;
-    }
-
     protected function check_values($data = NULL)
     {
         $not_to_load = array('menu_data', 'set');
@@ -176,6 +181,7 @@ class Pw_menu extends PW_Controller {
                     ->join('items_style', 'items.id = items_style.item_id')
                     ->join('items_apps', 'items.id = items_apps.item_id')
                     ->join('items_groups', 'items.id = items_groups.item_id')
+                    ->join('related_items', 'items.id = related_items.item_id')
                     ->order_by($this->order_by)
                     ->get();
 
@@ -196,10 +202,110 @@ class Pw_menu extends PW_Controller {
         return NULL;
     }
 
+    protected function build_menu_()
+    {
+        $this->build_path();
+        $menus = array('menus' => $this->menu_data);
+        $string = '';
+        /*foreach ($menus['menus'] as $key => $menu)
+        {
+            $mid = $menu['id'];
+            $pos = $menu['position'];
+            if ($this->as_child($mid))
+                $string .= $this->load->view($this->path_view, $menu, true);
+            elseif ($this->is_child($mid))
+            {
+                if ($pos <= 1)
+                    $string .= $this->load->view($this->path_view_child_first, $menu, true);
+                $string .= $this->load->view($this->path_view_child, $menu, true);
+                if (!$this->next_child($mid))
+                    $string .= $this->load->view($this->path_view_child_last, $menu, true);
+            }
+            if ($this->as_child($mid))
+                $string .= $this->load->view($this->path_view_last, $menu, true);
+        
+
+            $string = '
+                    <li class="'. $menu['css_class'] .'">
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">'. $menu['icon'] .'</i>
+                            <span>'. $menu['title'] .'</span>
+                        </a>
+                    </li>
+            ';
+            $it++;
+        
+        }*/
+        /*$string = '<ul>
+                    <li class="">
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">content_copy</i>
+                            <span>title</span>
+                        </a>
+                    </li>
+                </ul>
+            ';*/
+
+        return $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file.'/'.$this->view_file, $menus['menus'], true);
+        return $string;
+    }
+
     protected function build_menu()
     {
         $menu = array('menus' => $this->menu_data);
-        return $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file, $menu, true);
+        return $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file.'/'.$this->view_file, $menu, true);
     }
 
+    protected function is_child($menu_id = 0)
+    {
+        $menu = array('menus' => $this->menu_data);
+        foreach ($menus as $key => $menu)
+        {
+            if ($menu['ritem_id'] == $menu_id)
+                return true;
+        }
+        return false;
+    }
+
+    protected function has_child($menu_id = 0)
+    {
+        $menu = array('menus' => $this->menu_data);
+        foreach ($menus as $key => $menu)
+        {
+            if ($menu['ritem_id'] == $menu_id)
+                return false;
+        }
+        return true;
+    }
+
+    protected function next_child($menu_id = 0)
+    {
+        $menu = array('menus' => $this->menu_data);
+        $child = 0;
+        $tmp = 0;
+        foreach ($menus as $key => $menu)
+        {
+            if ($menu['ritem_id'] == $menu_id)
+                $child++;
+            if ($child > 0)
+                $tmp++;
+            if ($tmp != $child)
+            {
+                if ($menu['id'] == $menu_id) // && ritem_id = 0
+                    return false;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function build_path()
+    {
+        $this->path_view = "templates/".$this->template."/render/menu/".$this->view_file."/".$this->view_file;
+        $this->path_view_last = "templates/".$this->template."/render/menu/".$this->view_file."/".$this->view_file."-last";
+        $this->path_view_child_first = "templates/".$this->template."/render/menu/".$this->view_file."/".$this->view_file."-child-first";
+        $this->path_view_child = "templates/".$this->template."/render/menu/".$this->view_file."/".$this->view_file."-child";
+        $this->path_view_child_last = "templates/".$this->template."/render/menu/".$this->view_file."/".$this->view_file."-child-last";
+        return true;
+    }
 }

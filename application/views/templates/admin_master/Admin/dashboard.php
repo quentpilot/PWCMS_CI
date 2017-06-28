@@ -1,4 +1,4 @@
-<?php //debug() ?>
+<?php //debug($_SESSION['user']) ?>
 
 <!-- Widgets -->
 <div class="row clearfix">

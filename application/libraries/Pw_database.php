@@ -29,7 +29,7 @@ class Pw_database extends MX_Controller {
         return $req->num_row();
     }
 
-    public function get($table = NULL, $where = NULL, $cols = NULL, $order_by = 'id', $limit = NULL, $class = false)
+    public function get($table = NULL, $where = NULL, $cols = '', $order_by = 'id', $limit = NULL, $class = false)
     {
         if (is_null($table) || is_null($where) || is_null($order_by))
             return false;
