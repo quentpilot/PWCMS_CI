@@ -32,7 +32,7 @@
                 <ul class="list">
                     <li class="header">MENU DE NAVIGATION</li>
 
-                    <?php //echo $menu = (isset($admin_sidebar_menu) ? echo $admin_sidebar_menu : echo "no") ?>
+                    <?= $admin_sidebar_menu ?>
 
                     <!--<li class="active">
                         <a href="javascript:void(0);" class="menu-toggle">

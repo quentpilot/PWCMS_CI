@@ -24,10 +24,12 @@ class Admin_Controller extends PW_Controller
     $this->data['template'] = $template;
     $this->data['controller_class'] = $class_name;
     $this->data['render_path'] = 'templates/'.$this->data['template'].'/'.$this->data['controller_class'] . '/';
+    $this->data['admin_sidebar_menu'] = $this->pw_menu->build(NULL, true, $this->data['template'], 'link'); // dynamic admin sidebar menu
     $this->data['navbar_menu'] = $this->load->view('templates/'.$this->data['template'].'/parts/navbar_menu.php', NULL, TRUE);
     $this->data['sidebar_menu'] = $this->load->view('templates/'.$this->data['template'].'/parts/sidebar_menu.php', array('admin_sidebar_menu' => $this->data['admin_sidebar_menu']), TRUE);
     $this->data['page_title'] = 'PWCMS - Dashboard';
     $this->data['template_name'] = 'admin_master';
+
   }
 
   protected function render($view = NULL, $template = 'admin_master')
