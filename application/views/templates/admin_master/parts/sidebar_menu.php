@@ -30,9 +30,16 @@
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
-                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="header">MENU DE NAVIGATION</li>
 
-                    <?= $admin_sidebar_menu ?>
+                    <?php //echo $menu = (isset($admin_sidebar_menu) ? echo $admin_sidebar_menu : echo "no") ?>
+
+                    <!--<li class="active">
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">content_copy</i>
+                            <span>Tableaux de bord</span>
+                        </a>
+                    </li>-->
 
                     <!--<li class="active">
                         <a href="javascript:void(0);" class="menu-toggle">

@@ -37,6 +37,7 @@ class PW_Controller extends MX_Controller
     $this->data['controller_class'] = $class_name; // string current child class name to identify current render path
     $this->data['render_path'] = 'templates/'.$this->data['template'].'/'.$this->data['controller_class'] . '/';
     $this->data['admin_sidebar_menu'] = $this->pw_menu->build(NULL, true, $this->data['template'], 'link'); // dynamic admin sidebar menu
+    //$this->data['admin_sidebar_menu'] = $this->pw_menu->build(); // dynamic admin sidebar menu
   }
 
   protected function render($view = NULL, $template = 'master')

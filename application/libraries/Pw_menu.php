@@ -24,6 +24,7 @@ class Pw_menu extends PW_Controller {
     protected $active = NULL;
     protected $order_by = NULL;
     protected $where = NULL;
+    protected $num_menus = 0;
     protected $view = true;
     protected $view_file = NULL;
     protected $path_view = NULL;
@@ -53,13 +54,16 @@ class Pw_menu extends PW_Controller {
     {
         if ($view && is_null($template) && is_null($view_file))
             return false;
+        
         $this->view = $view;
         $this->templates = $template;
         $this->view_file = $view_file;
+        
         if (is_null($data))
         {
-            if (!$this->get())
+            if (!($m = $this->get()))
                 return false;
+            //debug($this->menu_data);
         }
         else
             $this->menu_data = $data;
@@ -109,20 +113,30 @@ class Pw_menu extends PW_Controller {
 
     protected function load_categories($data = NULL)
     {
-
         $categories = $this->db->get('category');
         if (!$categories->num_rows())
             return false;
         $cats = $categories->result_array();
         $items = array();
+        $it = 0;
         foreach ($data as $key)
         {
             if (($category = $this->get_item_table($cats, 'cat_id', $key['cat_id'])))
             {
-                $key = array_merge($key, $category);
-                array_push($items, $key);
+                unset($category['name']);
+                unset($category['status']);
+                $tmp = array_merge($key, $category);
+                array_push($items, $tmp);
+                //$items = $tmp;
+
+                //echo count($key);
+                $it++;
             }
         }
+        /*debug ($items);
+        echo count ($data[0]);*/
+        debug($items);
+        //echo '--';
         return $items;
     }
 
@@ -185,11 +199,13 @@ class Pw_menu extends PW_Controller {
                     ->order_by($this->order_by)
                     ->get();
 
-        if (!$req->num_rows())
+        if (!($nb = $req->num_rows()))
             return false;
+        $this->num_menus = $nb;
 
         $menus = $req->result_array();
         $this->menu_data = $menus;
+        //debug($menus);
         return $menus;
     }
 
@@ -202,30 +218,81 @@ class Pw_menu extends PW_Controller {
         return NULL;
     }
 
-    protected function build_menu_()
+    protected function build_menu()
     {
         $this->build_path();
         $menus = array('menus' => $this->menu_data);
+        $menus = $this->menu_data;
         $string = '';
+        $done = array();
+        $it = 0;
+        //debug($menus);
+        //debug($this->menu_data);
+        foreach ($menus as $key => $menu)
+        {
+            //debug($menus);
+            //echo '--';
+            if (!$it)
+            {
+                //debug($menu);
+                //echo count($menu);
+            }
+            $it++;
+        }
+
         /*foreach ($menus['menus'] as $key => $menu)
         {
+            //debug($menus['menus']);
+            debug($this->menu_data[0]);
+            echo '----';
+            //echo count($menus['menus']);
+            
             $mid = $menu['id'];
             $pos = $menu['position'];
-            if ($this->as_child($mid))
-                $string .= $this->load->view($this->path_view, $menu, true);
-            elseif ($this->is_child($mid))
+            //if ($it <= (count($menus['menus']) / 2))
+            $it++;
+            if ($it <= $this->num_menus)
+            {
+                //echo "menu $this->num_menus<br>";
+                //debug($done);
+                array_push($done, $mid);
+                if ($this->has_child($mid))
+                {
+                    //echo 'parent '.$menu['title'].'<br>';
+                    $string .= $this->load->view($this->path_view, $menus, true);
+                }
+                elseif ($this->is_child($mid))
+                {
+                    //echo 'child '.$menu['title'].'<br>';
+                    if ($pos == 1)
+                        $string .= $this->load->view($this->path_view_child_first, $menus, true);
+                    $string .= $this->load->view($this->path_view_child, $menus, true);
+                    if ($this->next_child($mid))
+                        $string .= $this->load->view($this->path_view_child_last, $menus, true);
+                }
+
+                if ($this->has_child($mid))
+                    $string .= $this->load->view($this->path_view_last, $menus, true);
+                //$string .= $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file.'/'.$this->view_file, $menus, true);
+                //$this->num_menus--;
+                
+            }
+            $it++;
+            //if ($this->as_child($mid))
+                //$string .= $this->load->view($this->path_view, $menu, true);
+            /*elseif ($this->is_child($mid))
             {
                 if ($pos <= 1)
                     $string .= $this->load->view($this->path_view_child_first, $menu, true);
                 $string .= $this->load->view($this->path_view_child, $menu, true);
                 if (!$this->next_child($mid))
                     $string .= $this->load->view($this->path_view_child_last, $menu, true);
-            }
-            if ($this->as_child($mid))
-                $string .= $this->load->view($this->path_view_last, $menu, true);
+            }*/
+            //if ($this->as_child($mid))
+                //$string .= $this->load->view($this->path_view_last, $menu, true);
         
 
-            $string = '
+            /*$string = '
                     <li class="'. $menu['css_class'] .'">
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">'. $menu['icon'] .'</i>
@@ -233,9 +300,9 @@ class Pw_menu extends PW_Controller {
                         </a>
                     </li>
             ';
-            $it++;
+            $it++;*/
         
-        }*/
+        //}
         /*$string = '<ul>
                     <li class="">
                         <a href="javascript:void(0);" class="menu-toggle">
@@ -246,11 +313,11 @@ class Pw_menu extends PW_Controller {
                 </ul>
             ';*/
 
-        return $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file.'/'.$this->view_file, $menus['menus'], true);
+        //return $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file.'/'.$this->view_file, $menus, true);
         return $string;
     }
 
-    protected function build_menu()
+    protected function build_menu_()
     {
         $menu = array('menus' => $this->menu_data);
         return $this->load->view('templates/'.$this->template.'/render/menu/'.$this->view_file.'/'.$this->view_file, $menu, true);
@@ -258,32 +325,39 @@ class Pw_menu extends PW_Controller {
 
     protected function is_child($menu_id = 0)
     {
-        $menu = array('menus' => $this->menu_data);
-        foreach ($menus as $key => $menu)
+        $menus = array('menus' => $this->menu_data);
+        foreach ($menus['menus'] as $key => $menu)
         {
             if ($menu['ritem_id'] == $menu_id)
-                return true;
-        }
-        return false;
-    }
-
-    protected function has_child($menu_id = 0)
-    {
-        $menu = array('menus' => $this->menu_data);
-        foreach ($menus as $key => $menu)
-        {
-            if ($menu['ritem_id'] == $menu_id)
+            {
+                //echo $menu['ritem_id'];
                 return false;
+            }
         }
         return true;
     }
 
+    protected function has_child($menu_id = 0)
+    {
+        $menus = array('menus' => $this->menu_data);
+        foreach ($menus['menus'] as $key => $menu)
+        {
+
+            //if ($menu['ritem_id'] == $menu_id && $menu['id'] != $menu_id)
+            if ($menu['ritem_id'] == 0)
+                return true;
+                //debug($menu);
+                //return false;
+        }
+        return false;
+    }
+
     protected function next_child($menu_id = 0)
     {
-        $menu = array('menus' => $this->menu_data);
+        $menus = array('menus' => $this->menu_data);
         $child = 0;
         $tmp = 0;
-        foreach ($menus as $key => $menu)
+        foreach ($menus['menus'] as $key => $menu)
         {
             if ($menu['ritem_id'] == $menu_id)
                 $child++;

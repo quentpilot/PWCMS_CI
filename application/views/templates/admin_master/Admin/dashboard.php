@@ -1,4 +1,4 @@
-<?php //debug($_SESSION['user']) ?>
+<?php //debug($admin_sidebar_menu) ?>
 
 <!-- Widgets -->
 <div class="row clearfix">
