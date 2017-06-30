@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 28 Juin 2017 à 22:23
+-- Généré le :  Ven 30 Juin 2017 à 12:44
 -- Version du serveur :  5.7.18-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
@@ -201,8 +201,8 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `user_id`, `title`, `subtitle`, `slug`, `show_title`, `content`, `position`, `url`, `target`, `icon`, `published`, `edited`, `hits`, `status`) VALUES
-(1, 0, 'menu test', NULL, 'menu-test', 1, '', 1, 'admin/index', '_self', 'content_copy', '2017-06-28 00:00:00', '2017-06-28 10:33:07', 0, 1),
-(2, 0, 'menu test 2', NULL, 'menu-test', 1, '', 2, 'admin/index', '_self', 'content_copy', '2017-06-28 00:00:00', '2017-06-28 18:18:09', 0, 1);
+(1, 0, 'menu test', NULL, 'menu-test', 1, '', 1, 'admin/index', '_self', 'content_copy', '2017-06-28 00:00:00', '2017-06-29 22:21:57', 0, 1),
+(2, 0, 'menu test 2', NULL, 'menu-test', 1, '', 1, 'admin/dashboard', '_self', 'content_copy', '2017-06-28 00:00:00', '2017-06-30 10:35:04', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -213,17 +213,16 @@ INSERT INTO `items` (`id`, `user_id`, `title`, `subtitle`, `slug`, `show_title`,
 CREATE TABLE `items_apps` (
   `item_id` int(11) NOT NULL DEFAULT '0',
   `app_id` int(11) NOT NULL DEFAULT '2',
-  `published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` int(11) NOT NULL DEFAULT '0'
+  `published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `items_apps`
 --
 
-INSERT INTO `items_apps` (`item_id`, `app_id`, `published`, `status`) VALUES
-(1, 1, '2017-06-28 10:34:10', 1),
-(2, 1, '2017-06-28 10:34:10', 1);
+INSERT INTO `items_apps` (`item_id`, `app_id`, `published`) VALUES
+(1, 1, '2017-06-28 10:34:10'),
+(2, 1, '2017-06-30 00:05:09');
 
 -- --------------------------------------------------------
 
@@ -234,17 +233,16 @@ INSERT INTO `items_apps` (`item_id`, `app_id`, `published`, `status`) VALUES
 CREATE TABLE `items_category` (
   `item_id` int(11) NOT NULL DEFAULT '0',
   `cat_id` int(11) NOT NULL DEFAULT '0',
-  `published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` int(11) NOT NULL DEFAULT '0'
+  `published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `items_category`
 --
 
-INSERT INTO `items_category` (`item_id`, `cat_id`, `published`, `status`) VALUES
-(1, 28, '2017-06-28 10:33:54', 1),
-(2, 28, '2017-06-28 10:33:54', 1);
+INSERT INTO `items_category` (`item_id`, `cat_id`, `published`) VALUES
+(1, 28, '2017-06-28 10:33:54'),
+(2, 28, '2017-06-28 10:33:54');
 
 -- --------------------------------------------------------
 
@@ -255,17 +253,16 @@ INSERT INTO `items_category` (`item_id`, `cat_id`, `published`, `status`) VALUES
 CREATE TABLE `items_groups` (
   `item_id` int(11) NOT NULL DEFAULT '0',
   `group_id` int(11) NOT NULL DEFAULT '1',
-  `published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` int(11) NOT NULL DEFAULT '0'
+  `published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `items_groups`
 --
 
-INSERT INTO `items_groups` (`item_id`, `group_id`, `published`, `status`) VALUES
-(1, 1, '2017-06-28 10:33:42', 1),
-(2, 1, '2017-06-28 10:33:42', 1);
+INSERT INTO `items_groups` (`item_id`, `group_id`, `published`) VALUES
+(1, 1, '2017-06-28 10:33:42'),
+(2, 1, '2017-06-28 10:33:42');
 
 -- --------------------------------------------------------
 
@@ -277,17 +274,16 @@ CREATE TABLE `items_style` (
   `item_id` int(11) NOT NULL DEFAULT '0',
   `template_id` int(11) NOT NULL DEFAULT '2',
   `css_class` varchar(255) DEFAULT NULL,
-  `js_class` varchar(255) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT '0'
+  `js_class` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `items_style`
 --
 
-INSERT INTO `items_style` (`item_id`, `template_id`, `css_class`, `js_class`, `status`) VALUES
-(1, 1, 'active', NULL, 1),
-(2, 1, 'menu-ml', NULL, 1);
+INSERT INTO `items_style` (`item_id`, `template_id`, `css_class`, `js_class`) VALUES
+(1, 1, 'active', NULL),
+(2, 1, 'menu-ml', NULL);
 
 -- --------------------------------------------------------
 
@@ -442,10 +438,16 @@ INSERT INTO `related_groups` (`id`, `user_id`, `group_id`, `published`, `status`
 CREATE TABLE `related_items` (
   `id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL DEFAULT '0',
-  `ritem_id` int(11) NOT NULL DEFAULT '0',
-  `published` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `status` int(11) NOT NULL DEFAULT '0'
+  `ritem_id` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `related_items`
+--
+
+INSERT INTO `related_items` (`id`, `item_id`, `ritem_id`) VALUES
+(1, 1, 0),
+(2, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -539,7 +541,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `salt`, `last_name`, `first_name`, `valid_email`, `token`, `city`, `country`, `phone`, `company`, `job`, `website`, `register_date`, `last_login`, `remember_me`, `max_forgot_pass`, `profile_img`, `navbar_color`, `status`) VALUES
-(39, 'PilotaWeb', 'quentin.lebian@pilotaweb.fr', '$2y$10$vLa3nSHfDx2nOnKfslSXf.PFC0Y9iSry0qQa1Tm2Gr.Abf4A.5sOK', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-06-25 21:46:25', '2017-06-28 20:17:45', 0, 3, 'default_avatar.png', NULL, 0),
+(39, 'PilotaWeb', 'quentin.lebian@pilotaweb.fr', '$2y$10$vLa3nSHfDx2nOnKfslSXf.PFC0Y9iSry0qQa1Tm2Gr.Abf4A.5sOK', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-06-25 21:46:25', '2017-06-28 21:39:13', 0, 3, 'default_avatar.png', NULL, 1),
 (40, 'quentpilot', 'quentin.lebian.pro@gmail.com', '$2y$10$7baN2gwLD6Av2aB8xsEMeOjVM.tfgJw9B9dp54Xvl9WHD.VwwW2/C', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-06-26 16:52:56', '2017-06-26 15:01:26', 0, 3, 'default_avatar.png', NULL, 0);
 
 -- --------------------------------------------------------
@@ -894,7 +896,7 @@ ALTER TABLE `easyweb_settings`
 -- AUTO_INCREMENT pour la table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `newsletter`
 --
@@ -914,7 +916,7 @@ ALTER TABLE `related_groups`
 -- AUTO_INCREMENT pour la table `related_items`
 --
 ALTER TABLE `related_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `related_users`
 --
