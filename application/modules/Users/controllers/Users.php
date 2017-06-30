@@ -1,12 +1,25 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+	/******************************
+    *
+    * Users.php for PWCMS in 
+    *
+    * Made by Quentin Le Bian
+    * Contact   <quentin.lebian@pilotaweb.fr>
+    *
+    * Started on  Fri Jun 23 19:20:24 2017 quentin
+    * Last update Thu Jun 29 03:22:42 2017 quentin
+    *
+    ******************************/
  
 class Users extends Admin_Controller {
 	/**
-		* @Author				: quentpilot {Quentin Le Bian}
-		* @Email				: quentin.lebian@pilotaweb.fr
-		* @Web					: https://pilotaweb.fr
-		* @Date					: 2017-06-23 19:20:00
-		* @See					: Admin_Controller class
+	* @Author		: quentpilot {Quentin Le Bian}
+	* @Copyright    : MIT - Enjoy and code as you are
+	* @Email		: quentin.lebian@pilotaweb.fr
+	* @Web			: https://pilotaweb.fr
+	* @Date			: 2017-06-23 19:20:24
+	* @See			: Admin_Controller class
 	**/
 
 	public function __construct()

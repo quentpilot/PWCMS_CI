@@ -1,5 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+    /******************************
+    *
+    * Pw_form.php for PWCMS in 
+    *
+    * Made by Quentin Le Bian
+    * Contact   <quentin.lebian@pilotaweb.fr>
+    *
+    * Started on  Fri Jun 23 20:00:00 2017 quentin
+    * Last update Thu Jun 29 03:22:42 2017 quentin
+    *
+    ******************************/
 
 class Pw_form {
 

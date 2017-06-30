@@ -1,5 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+	/******************************
+    *
+    * Pw_user.php for PWCMS in 
+    *
+    * Made by Quentin Le Bian
+    * Contact   <quentin.lebian@pilotaweb.fr>
+    *
+    * Started on  Fri Jun 23 20:00:18 2017 quentin
+    * Last update Thu Jun 29 03:22:42 2017 quentin
+    *
+    ******************************/
 
 class Pw_user extends PW_Controller {
 
@@ -7,7 +18,7 @@ class Pw_user extends PW_Controller {
     * @Author       : quentpilot {Quentin Le Bian}
     * @Email        : quentin.lebian@pilotaweb.fr
     * @Web          : https://pilotaweb.fr
-    * @Date         : 2017-06-23 20:00:00
+    * @Date         : 2017-06-23 20:00:18
     * @See          : PW_Controller class
   **/
 

@@ -1,5 +1,16 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+    /******************************
+    *
+    * Pw_database.php for PWCMS in 
+    *
+    * Made by Quentin Le Bian
+    * Contact   <quentin.lebian@pilotaweb.fr>
+    *
+    * Started on  Sat Jun 24 02:22:12 2017 quentin
+    * Last update Thu Jun 29 03:22:42 2017 quentin
+    *
+    ******************************/
 
 class Pw_database extends MX_Controller {
 
@@ -7,14 +18,13 @@ class Pw_database extends MX_Controller {
     * @Author       : quentpilot {Quentin Le Bian}
     * @Email        : quentin.lebian@pilotaweb.fr
     * @Web          : https://pilotaweb.fr
-    * @Date         : 2017-06-24 02:22:00
-    * @See          : PW_Controller class
+    * @Date         : 2017-06-24 02:22:12
+    * @See          : MX_Controller class
   **/
 
 	function __construct()
 	{
 		//parent::__construct();
-        
 	}
 
     public function count($table = NULL, $where = NULL, $order_by = 'id')

@@ -1,23 +1,27 @@
-  <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/*
-   Pw_menu.php for PWCMS in 
-   
-   Made by Quentin Le Bian
-   Login   <quentin.lebian@pilotaweb.fr>
-   
-   Started on  Wed Jun 28 07:30:42 2017 root
-   Last update Thu Jun 29 03:22:12 2017 root
-*/
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+    /******************************
+    *
+    * Pw_menu.php for PWCMS in 
+    *
+    * Made by Quentin Le Bian
+    * Contact   <quentin.lebian@pilotaweb.fr>
+    *
+    * Started on  Wed Jun 28 07:30:00 2017 quentin
+    * Last update Thu Jun 29 03:22:42 2017 quentin
+    *
+    ******************************/
 
 class Pw_menu {
 
 	/**
     * @Author       : quentpilot {Quentin Le Bian}
+    * @Copyright    : MIT - Enjoy and code as you are
     * @Email        : quentin.lebian@pilotaweb.fr
     * @Web          : https://pilotaweb.fr
-    * @Date         : 2017-06-28 07:30:42
-    * @See          : PW_Controller class
-  **/
+    * @Date         : 2017-06-28 07:30:00
+    * @See          : Pw_menu class cms.pilotaweb.fr/doc/class/pw_menu
+    **/
 
     protected $pw = NULL;
     protected $name = NULL;
