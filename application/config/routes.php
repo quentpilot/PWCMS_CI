@@ -119,6 +119,24 @@ $route['admin/categories'] = 'Categories/index';
 /* Users module */
 $route['admin/users'] = 'Users/index';
 
+/* AppBuilder module */
+$route['admin/pilotaweb'] = 'AppBuilder/index';
+
+/* Builder modules */
+$route['admin/pilotaweb/app/(:any)/(:any)'] = function($plugin = NULL, $controller = 'index')
+{
+	return ucfirst($plugin) . 'Builder/'. $controller;
+};
+
+/* LandingBuilder module */
+//$route['admin/app/landing'] = 'LandingBuilder/index';
+
+/* VitrineBuilder module */
+//$route['admin/app/vitrine'] = 'VitrineBuilder/index';
+
+/* BlogBuilder module */
+//$route['admin/app/blog'] = 'BlogBuilder/index';
+
 
 
 		/* main extern(plugin) modules */

@@ -21,6 +21,10 @@ class Pw_builder {
     * @See          : Pw_builder class cms.pilotaweb.fr/doc/class/pw_builder
     **/
 
+    protected $pw = NULL; // current instance
+
     function __construct()
-    {}
+    {
+        $this->pw = &get_instance();
+    }
 }
